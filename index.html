@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulador Calculadora de tiempos de producción</title>
-    <script src="./app.js" ></script>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -27,7 +26,7 @@
             <br>
             <p>Selecciona por favor el número de lecturas realizadas (veces que debes cronometrar 
                 según el paso anterior)</p>
-            <select name="times" id="times" onchange="selectFunction();">
+            <select name="times" id="times">
                 <option value="five">Cinco</option>
                 <option value="ten">Diez</option>
             </select>
@@ -84,16 +83,16 @@
                 para determinar el tamaño de muestra adecuado para tener una confianza del 95% 
                 y un más o menos 5% de nivel de precisión.
             </h2>
-            <button id="submitRange" href="#" style="width : 180px" 
-                onclick="calcRange()">1.Calcular Rango de los datos ingresados
+            <button id="submitRange" href="#" style="width : 180px"
+                >1.Calcular Rango de los datos ingresados
             </button>
             <p id="rangeText"></p><br>
-            <button id="submitRange" href="#" style="width : 180px" 
-                onclick="calcProm()">2.Calcular Promedio de los datos ingresados
+            <button id="submitProm" href="#" style="width : 180px" 
+                >2.Calcular Promedio de los datos ingresados
             </button>
             <p id="promText"></p><br>
-            <button id="submitRange" href="#" style="width : 180px" 
-                onclick="calcIndicador()">3.Calcular el Cociente del radio y el promedio (Indicador)
+            <button id="submitInd" href="#" style="width : 180px" 
+                >3.Calcular el Cociente del radio y el promedio (Indicador)
             </button>
             <p id="indicatorText"></p><br>
             <div style="display:none" id="float-section">
@@ -113,21 +112,21 @@
         <p>Una vez hayas realizado la toma de tiempos del operario más calificado 
             según el tamaño de muestra adecuado deberás Ingresar esta información como referente
         </p>
-        <button  href="#" style="width : 180px" 
-            onclick="ingresarInfRef()">1.Ingresar la información del operario más calificado
+        <button  id="InfReferencia" href="#" style="width : 180px" 
+            >1.Ingresar la información del operario más calificado
         </button>
         <p id="datosIngresados"></p>
         <p id="tiemposTexto"></p>
         <div id="tiemposIngresados">
         </div><br>
-        <button id="submitRange" href="#" style="width : 180px" 
-            onclick="calcTimeProm(times)">2.Calcular el tiempo promedio del operario de referencia
+        <button id="calcTimePromRef" href="#" style="width : 180px" 
+            >2.Calcular el tiempo promedio del operario de referencia
         </button>
         <p id="promTimeRef"></p><br>
         <p>Es necesario agregar holguras constantes a este tiempo donde se consideran las necesidades básicas
             y la tolerancia por fatiga </p>
-        <button id="submitRange" href="#" style="width : 180px" 
-            onclick="agregarTolBasic(promTimeRef)">3.Agregar tolerancias básicas al tiempo de referencia
+        <button id="calcTimeEstandRef" href="#" style="width : 180px" 
+            >3.Agregar tolerancias básicas al tiempo de referencia
         </button>
         <p id="estandTimeRef"></p><br>
     </section>
@@ -161,7 +160,7 @@
                 <input type="radio"id="radiofino2" name="esfuerzo" value="fino2"/>
             </div>
             <div>
-                <button  href="#" style="width : 180px" 
+                <button  href="#" style="width : 180px" id=""
                     onclick="agregarTolVar(promTimeRef,estandarTimeRef)">4.Verificar holguras
                 </button>
                 <p id="estandTimeRefFinal"></p>
@@ -170,10 +169,11 @@
     </section><br>
     <section>
             <h2>Módulo 3:Evaluación de tiempos de varios operarios</h2>
-            <button  href="#" style="width : 180px" 
+            <button  href="#" style="width : 180px" id="calcTimeEstandRefFinal"
                 onclick="calcPromTimeOpers()">Ingresar información de varios operarios a medir
             </button>
     </section>
 </main> 
+<script src="./app.js" ></script>
 </body>
 </html>

@@ -44,6 +44,25 @@ class Operario{
     }
 }
 
+//Lector de eventos
+//Modulo 1
+document.querySelector("#times").addEventListener("change",selectFunction);
+document.querySelector("#submitRange").addEventListener("click",calcRange);
+document.querySelector("#submitProm").addEventListener("click",calcProm);
+document.querySelector("#submitInd").addEventListener("click",calcIndicador);
+//Modulo 2
+document.querySelector("#InfReferencia").addEventListener("click",ingresarInfRef);
+calcTimePromRef.addEventListener("click", () => calcTimeProm(times));
+calcTimeEstandRef.addEventListener("click", () => agregarTolBasic(promTimeRef));
+calcTimeEstandRefFinal.addEventListener("click", () => agregarTolVar(promTimeRef,estandarTimeRef));
+
+//document.querySelector("#calcTimePromRef").addEventListener("click",calcTimeProm(times));
+//document.querySelector("#calcTimeEstandRef").addEventListener("click",agregarTolBasic(promTimeRef));
+//document.querySelector("#calcEstandTimeRefFinal").addEventListener("click",agregarTolVar(promTimeRef,estandarTimeRef));
+
+//Modulo 3
+
+
 //--------------------------------------------------------------------------------------------------------------
 /*Módulo 1:Encontrar el tamaño de muestra correcto para conseguir una mayor certeza en la información, para este 
 ejercico el usuario seleccionará a su operario más hábil para la realización de la tarea, con mayor experiencia 
@@ -51,7 +70,7 @@ y mejor disponibilidad para la medición de tiempos de la misma*/
 
 //Se ocultan los recuadros en el HTML o se muestran de acuerdo a la selección del usuario
 function selectFunction(){
-    let timesInit= document.getElementById("times");
+    let timesInit= document.getElementById('times');
     let selected = timesInit.options[timesInit.selectedIndex].text;
     alert("Usted ha seleccionado la opción "+ selected + " veces");
     // El usuario Selecciona el número de valores a ingresar pueden ser 10 o 5 dependiendo del tiempo de ciclo
@@ -113,7 +132,6 @@ function calcRange(){
     document.getElementById("rangeText").innerHTML=`Perfecto,el tiempo máximo es de: ${maxim} y el mínimo
     de: ${minim} , por tanto, el rango de los datos
     ingresados es  ${range}`  
-    return range; 
 }
 
 //Calcularemos el promedio de los datos ingresados
@@ -122,7 +140,6 @@ function calcProm(){
     const acum=listado.reduce((acumulador,elemento)=>acumulador+elemento,0)
     const prom=acum/global;
     document.getElementById("promText").innerHTML=`El promedio de los datos ingresados es de: ${prom}`
-    return prom;
 }
 
 //Calcularemos el cociente de los datos ingresados
@@ -133,7 +150,6 @@ function calcIndicador(){
     document.getElementById("indicatorText").innerHTML=`El cociente del rango y la media es de: ${indicador}`
     div = document.getElementById('float-section');
     div.style.display = '';
-    return indicador;
 }
 
 //-------------------------------------------------------------------------------------------------------------
@@ -172,7 +188,6 @@ function calcTimeProm(listado){
     promTimeRef=acumTimeRef/sampleSize;
     document.getElementById("promTimeRef").innerHTML=`La información del tiempo promedio de 
     referencia es: ${promTimeRef}` 
-    return promTimeRef;
 }
 
 /*Se agregan las holguras constantes básicas recomendadas por seguridad y salud
@@ -181,7 +196,6 @@ function agregarTolBasic(tiempoPromedio){
     estandarTimeRef=tiempoPromedio*(1+holguraFatiga+holguraNeds);
     document.getElementById("estandTimeRef").innerHTML=`tiempo estandar básico
     (sumando las holguras por fátiga y necesidades básicas): ${estandarTimeRef}`
-    return estandarTimeRef;
 }
 
 /*Existen holguras adicionales que podemos agregar dependiendo de la situación, estas son llamadas 
