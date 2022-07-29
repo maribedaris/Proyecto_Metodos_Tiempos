@@ -15,6 +15,8 @@ let time9;
 let time10;
 let list=[];
 let times=[];
+let range;
+let prom;
 let sampleSize;
 let nameOperRef;
 let experienceOperRef;
@@ -67,7 +69,7 @@ document.querySelector("#radiofino1").addEventListener("click",describirHolguras
 document.querySelector("#radiofino2").addEventListener("click",describirHolguras);
 document.querySelector("#borrarHolguras").addEventListener("click",recetHolguras);
 //Modulo 3
-
+document.querySelector("#calcTimeMult").addEventListener("click",calcPromTimeOpers);
 
 //--------------------------------------------------------------------------------------------------------------
 /*Módulo 1:Encontrar el tamaño de muestra correcto para conseguir una mayor certeza en la información, para este 
@@ -134,7 +136,7 @@ function calcRange(){
     const listado=llenarVector();
     const maxim=Math.max.apply(null,listado);
     const minim=Math.min.apply(null,listado);
-    const range=maxim-minim;
+    range=maxim-minim;
     document.getElementById("rangeText").innerHTML=`Perfecto,el tiempo máximo es de: ${maxim} y el mínimo
     de: ${minim} , por tanto, el rango de los datos
     ingresados es  ${range}`  
@@ -144,14 +146,12 @@ function calcRange(){
 function calcProm(){
     const listado=llenarVector();
     const acum=listado.reduce((acumulador,elemento)=>acumulador+elemento,0)
-    const prom=acum/global;
+    prom=acum/global;
     document.getElementById("promText").innerHTML=`El promedio de los datos ingresados es de: ${prom}`
 }
 
 //Calcularemos el cociente de los datos ingresados
 function calcIndicador(){
-    const range=calcRange();
-    const prom=calcProm();
     const indicador=(range/prom);
     document.getElementById("indicatorText").innerHTML=`El cociente del rango y la media es de: ${indicador}`
     div = document.getElementById('float-section');
@@ -194,6 +194,7 @@ function calcTimeProm(listado){
     promTimeRef=acumTimeRef/sampleSize;
     document.getElementById("promTimeRef").innerHTML=`La información del tiempo promedio de 
     referencia es: ${promTimeRef}` 
+    return promTimeRef;
 }
 
 /*Se agregan las holguras constantes básicas recomendadas por seguridad y salud
@@ -253,9 +254,10 @@ function agregarTolVar(tiempoPromedio,tiempoEstandar){
     llenarObjOperRef();
 }
 
+//SOS:La idea con esta función es recetear los botones seleccionados, pero no me está funcionando
 function recetHolguras() {
-    let element=document.querySelectorAll(`input [name="postura"]`)
-            element.checked = false;
+    let element=document.querySelectorAll(`input .holguraVar`)
+        element.checked = false;
 }
 
 function describirHolguras(){
@@ -323,17 +325,17 @@ los demás operarios*/
 su desempeño*/ 
 function calcPromTimeOpers(){
     let operatorsNumber=prompt("Por favor ingrese el número de operarios");
-    times=[];
+    let timesMult=[];
     operator=[];
     for(let i=0;i<=(operatorsNumber-1);i++){
         nameOper=prompt("Ingrese el nombre del operario "+ (i+1) );
         experienceOper=prompt("Ingrese los años de experiencia en la labor del operario "+ (i+1));
         for (let j=0;j<=(sampleSize-1);j++){
             let time=prompt("ingrese la toma de tiempo número " + (j+1));
-            times[j]=parseFloat(time);
+            timesMult[j]=parseFloat(time);
         }
-        const promedioOperarios=calcTimeProm(times);
-        const estandarOperarios=agregarTolBasic(promedioOperarios);
+        const promedioOperarios=calcTimeProm(timesMult);
+        //const estandarOperarios=agregarTolBasic(promedioOperarios);
         operator[i]=new Operario(nameOper,experienceOper,promedioOperarios); 
         console.log(operator[i]);
     }
