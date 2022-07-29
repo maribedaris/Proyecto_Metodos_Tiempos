@@ -139,37 +139,41 @@
             <div>
                 <p>holguras por postura</p>
                 <span>parado</span>
-                <input type="radio" id="radioPost1" name="postura" value="parado"/>
+                <input type="radio" id="radioPost1" name="postura" value="parado" class="holguraVar"/>
                 <span>Incómodo (fexionado, acostado, en cuclillas)</span>
-                <input type="radio"  id="radioPost1" name="postura" value="incomodo"/>
+                <input type="radio"  id="radioPost2" name="postura" value="incomodo" class="holguraVar"/>
             </div>
             <div>
                 <p>Niveles de iluminación</p>
                 <span>Un nivel (una subcategoría de IES) abajo de lo recomendado</span>
-                <input type="radio" id="radioLuz1" name="luz" value="luz1"/>
+                <input type="radio" id="radioLuz1" name="luz" value="luz1" class="holguraVar"/>
                 <span>Dos niveles abajo de lo recomendado</span>
-                <input type="radio" id="radioLuz2" name="luz" value="luz2"/>
+                <input type="radio" id="radioLuz2" name="luz" value="luz2" class="holguraVar"/>
                 <span>Tres niveles (categoría IES completa) abajo de lo recomendado</span>
-                <input type="radio" id="radioLuz3" name="luz" value="luz3"/>
+                <input type="radio" id="radioLuz3" name="luz" value="luz3" class="holguraVar"/>
             </div>
             <div>
                 <p>Esfuerzo visual (atención estrecha)</p>
                 <span>Trabajo fino</span>
-                <input type="radio" id="radiofino1" name="esfuerzo" value="fino1"/>
+                <input type="radio" id="radiofino1" name="esfuerzo" value="fino1" class="holguraVar"/>
                 <span>Trabajo muy fino</span>
-                <input type="radio"id="radiofino2" name="esfuerzo" value="fino2"/>
+                <input type="radio"id="radiofino2" name="esfuerzo" value="fino2" class="holguraVar"/>
             </div>
             <div>
-                <button  href="#" style="width : 180px" id=""
-                    onclick="agregarTolVar(promTimeRef,estandarTimeRef)">4.Verificar holguras
+                <p id="holgurasSelec"></p>
+                <button  href="#" style="width : 180px" id="borrarHolguras"
+                    >Limpiar holguras seleccionadas
+                </button><br><br>
+                <button  href="#" style="width : 180px" id="calcTimeEstandRefFinal"
+                    >4.Verificar holguras
                 </button>
-                <p id="estandTimeRefFinal"></p>
+                <p id="estandTimeRefFinal"></p><br>
             </div>
             <hr>
     </section><br>
     <section>
             <h2>Módulo 3:Evaluación de tiempos de varios operarios</h2>
-            <button  href="#" style="width : 180px" id="calcTimeEstandRefFinal"
+            <button  href="#" style="width : 180px" id=""
                 onclick="calcPromTimeOpers()">Ingresar información de varios operarios a medir
             </button>
     </section>

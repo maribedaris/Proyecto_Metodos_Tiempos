@@ -21,6 +21,9 @@ let experienceOperRef;
 let promTimeRef;
 let estandarTimeRef;
 let estandarTimeRefFinal;
+let holguraPost;
+let holguraLuz;
+let holguraEsfuerzo;
 const holguraNeds=0.05;//Holgura para tomar agua, ir al baño, lavarse las manos
 const holguraFatiga=0.04;//Considera la energia que se consume para realizar un trabajo y aliviar la monotonía
 
@@ -55,11 +58,14 @@ document.querySelector("#InfReferencia").addEventListener("click",ingresarInfRef
 calcTimePromRef.addEventListener("click", () => calcTimeProm(times));
 calcTimeEstandRef.addEventListener("click", () => agregarTolBasic(promTimeRef));
 calcTimeEstandRefFinal.addEventListener("click", () => agregarTolVar(promTimeRef,estandarTimeRef));
-
-//document.querySelector("#calcTimePromRef").addEventListener("click",calcTimeProm(times));
-//document.querySelector("#calcTimeEstandRef").addEventListener("click",agregarTolBasic(promTimeRef));
-//document.querySelector("#calcEstandTimeRefFinal").addEventListener("click",agregarTolVar(promTimeRef,estandarTimeRef));
-
+document.querySelector("#radioPost1").addEventListener("click",describirHolguras);
+document.querySelector("#radioPost2").addEventListener("click",describirHolguras);
+document.querySelector("#radioLuz1").addEventListener("click",describirHolguras);
+document.querySelector("#radioLuz2").addEventListener("click",describirHolguras);
+document.querySelector("#radioLuz3").addEventListener("click",describirHolguras);
+document.querySelector("#radiofino1").addEventListener("click",describirHolguras);
+document.querySelector("#radiofino2").addEventListener("click",describirHolguras);
+document.querySelector("#borrarHolguras").addEventListener("click",recetHolguras);
 //Modulo 3
 
 
@@ -169,9 +175,9 @@ function ingresarInfRef(){
         let time=prompt("ingrese la toma de tiempo número " + (j+1)+" de "+ nameOperRef);
         times[j]=parseFloat(time);
     }
-    document.getElementById("datosIngresados").innerHTML=`La información del operario de referencia es:
-    tamaño de muestra: ${sampleSize} datos, 
-    nombre: ${nameOperRef}, 
+    document.getElementById("datosIngresados").innerHTML=`La información del operario de referencia es: <br>
+    tamaño de muestra: ${sampleSize} datos, <br>
+    nombre: ${nameOperRef}, <br>
     experiencia: ${experienceOperRef} años`
     document.getElementById("tiemposTexto").innerHTML=`La información de los tiempos ingresados es:` 
     for (const time of times){
@@ -205,7 +211,7 @@ function agregarTolVar(tiempoPromedio,tiempoEstandar){
     let holguraLuzVal=0;
     let holguraEsfuerzoVal=0;
     if (document.querySelector('input[name="postura"]:checked')!=null){
-        let holguraPost= document.querySelector('input[name=postura]:checked').value;
+        holguraPost= document.querySelector('input[name=postura]:checked').value;
         switch (holguraPost) {
             case "parado":
                 holguraPostVal=0.02;
@@ -216,7 +222,7 @@ function agregarTolVar(tiempoPromedio,tiempoEstandar){
         }
     }
     if (document.querySelector('input[name="luz"]:checked')!=null){
-        let holguraLuz= document.querySelector('input[name=luz]:checked').value;
+        holguraLuz= document.querySelector('input[name=luz]:checked').value;
         switch (holguraLuz) {
             case "luz1":
                 holguraLuzVal=0.01;
@@ -230,7 +236,7 @@ function agregarTolVar(tiempoPromedio,tiempoEstandar){
         }
     }
     if (document.querySelector('input[name="esfuerzo"]:checked')!=null){
-        let holguraEsfuerzo= document.querySelector('input[name=esfuerzo]:checked').value;
+        holguraEsfuerzo= document.querySelector('input[name=esfuerzo]:checked').value;
         switch (holguraEsfuerzo) {
             case "fino1":
                 holguraEsfuerzoVal=0.02;
@@ -245,6 +251,60 @@ function agregarTolVar(tiempoPromedio,tiempoEstandar){
     document.getElementById("estandTimeRefFinal").innerHTML=`tiempo estandar final
     (sumando las holguras básicas y variables): ${estandarTimeRefFinal}`
     llenarObjOperRef();
+}
+
+function recetHolguras() {
+    let element=document.querySelectorAll(`input [name="postura"]`)
+            element.checked = false;
+}
+
+function describirHolguras(){
+    let holguraLuzText="";
+    let holguraEsfuerzoText="";
+    let holguraPostText="";
+    let textoFinal="";
+
+    if (document.querySelector('input[name="postura"]:checked')!=null){
+        holguraPost= document.querySelector('input[name=postura]:checked').value;
+        switch (holguraPost) {
+            case "parado":
+                holguraPostText="Parado";
+            break;
+            case "incomodo":
+                holguraPostText="Incomodo";
+            break;
+        }
+    }
+    if (document.querySelector('input[name="luz"]:checked')!=null){
+        holguraLuz= document.querySelector('input[name=luz]:checked').value;
+        switch (holguraLuz) {
+            case "luz1":
+                holguraLuzText="Un nivel (una subcategoría de IES) abajo de lo recomendado";
+            break;
+            case "luz2":
+                holguraLuzText="Dos niveles abajo de lo recomendado";
+            break;
+            case "luz3":
+                holguraLuzText="Tres niveles (categoría IES completa) abajo de lo recomendado";
+            break;
+        }
+    }
+    if (document.querySelector('input[name="esfuerzo"]:checked')!=null){
+        holguraEsfuerzo= document.querySelector('input[name=esfuerzo]:checked').value;
+        switch (holguraEsfuerzo) {
+            case "fino1":
+                holguraEsfuerzoText="Trabajo fino";
+            break;
+            case "fino2":
+                holguraEsfuerzoText="Trabajo muy fino";
+            break;
+        }
+    }
+    textoFinal=`Las holguras variables que ha seleccionado son: <br>
+    ${holguraPostText}<br>
+    ${holguraLuzText}<br>
+    ${holguraEsfuerzoText}`
+    document.getElementById("holgurasSelec").innerHTML=textoFinal;
 }
 
 function llenarObjOperRef(){
