@@ -112,9 +112,33 @@
         <p>Una vez hayas realizado la toma de tiempos del operario más calificado 
             según el tamaño de muestra adecuado deberás Ingresar esta información como referente
         </p>
-        <button  id="InfReferencia" href="#" style="width : 180px" 
-            >1.Ingresar la información del operario más calificado
-        </button>
+        <div>
+            <button  id="InfReferencia" href="#" style="width : 180px" 
+                >1.Ingresar la información del operario más calificado
+            </button>
+            <div id="referenceSeccion" style="display:none">
+                <p>Por favor ingrese los siguientes datos</p>
+                <div>
+                    <span>Tamaño de muestra requerido según la tabla</span>
+                        <input type="number" id="tamMuestra" style="width : 50px"/>
+                </div>
+                <div>
+                    <span>Nombre del operario de referencia</span>
+                        <input type="text" id="nombreOpRef" style="width : 80px"/>
+                </div>
+                <div>
+                    <span>Años de experiencia en la labor del operario de referencia</span>
+                        <input type="number" id="yearsExp" style="width : 50px"/>
+                </div>
+            </div>
+            <div>
+                <p>Por favor ingrese los tiempos de acuerdo al tamaño de muestra ingresado</p>
+                <div id="tiemposReferencia"></div>
+            </div>
+            <button  id="envioInfRef" href="#" style="width : 180px" 
+                >Enviar Información
+            </button>
+        </div>
         <p id="datosIngresados"></p>
         <p id="tiemposTexto"></p>
         <div id="tiemposIngresados">
@@ -178,6 +202,8 @@
             </button><br>
     </section>
 </main> 
+<script src="./objetos.js" ></script>
 <script src="./app.js" ></script>
+<script src="./eventos.js" ></script>
 </body>
 </html>

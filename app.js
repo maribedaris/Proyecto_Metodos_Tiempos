@@ -1,6 +1,4 @@
 
-/*Variables globales y objetos*/
-
 /*Variables globales*/
 let global=5;
 let time1;
@@ -28,48 +26,6 @@ let holguraLuz;
 let holguraEsfuerzo;
 const holguraNeds=0.05;//Holgura para tomar agua, ir al baño, lavarse las manos
 const holguraFatiga=0.04;//Considera la energia que se consume para realizar un trabajo y aliviar la monotonía
-
-
-/*Objeto operario de referencia*/
-class Operariodest{
-    constructor(nombreRef,experienciaRef,tiempoPromRef,tiempoEstRef){
-        this.nombreRef=nombreRef;
-        this.experienciaRef=experienciaRef;
-        this.tiempoPromRef=tiempoPromRef;
-        this.tiempoEstRef=tiempoEstRef;
-    }
-}
-
-/*Objeto operarios a medir*/
-class Operario{
-    constructor(nombre,experiencia,tiempoPromedio){
-        this.nombre=nombre;
-        this.experiencia=experiencia;
-        this.tiempoPromedio=tiempoPromedio;
-    }
-}
-
-//Lector de eventos
-//Modulo 1
-document.querySelector("#times").addEventListener("change",selectFunction);
-document.querySelector("#submitRange").addEventListener("click",calcRange);
-document.querySelector("#submitProm").addEventListener("click",calcProm);
-document.querySelector("#submitInd").addEventListener("click",calcIndicador);
-//Modulo 2
-document.querySelector("#InfReferencia").addEventListener("click",ingresarInfRef);
-calcTimePromRef.addEventListener("click", () => calcTimeProm(times));
-calcTimeEstandRef.addEventListener("click", () => agregarTolBasic(promTimeRef));
-calcTimeEstandRefFinal.addEventListener("click", () => agregarTolVar(promTimeRef,estandarTimeRef));
-document.querySelector("#radioPost1").addEventListener("click",describirHolguras);
-document.querySelector("#radioPost2").addEventListener("click",describirHolguras);
-document.querySelector("#radioLuz1").addEventListener("click",describirHolguras);
-document.querySelector("#radioLuz2").addEventListener("click",describirHolguras);
-document.querySelector("#radioLuz3").addEventListener("click",describirHolguras);
-document.querySelector("#radiofino1").addEventListener("click",describirHolguras);
-document.querySelector("#radiofino2").addEventListener("click",describirHolguras);
-document.querySelector("#borrarHolguras").addEventListener("click",recetHolguras);
-//Modulo 3
-document.querySelector("#calcTimeMult").addEventListener("click",calcPromTimeOpers);
 
 //--------------------------------------------------------------------------------------------------------------
 /*Módulo 1:Encontrar el tamaño de muestra correcto para conseguir una mayor certeza en la información, para este 
@@ -168,11 +124,30 @@ que este será nuestro tiempo promedio de referencia*/
 
 //El usuario debe ingresar la información de su operario más capaz en la tarea y se muestra esta información
 function ingresarInfRef(){
-    sampleSize=prompt("Por favor ingrese el tamaño de muestra requerido según la tabla");
-    nameOperRef=prompt("Ingrese el nombre del operario de referencia");
-    experienceOperRef=prompt("Ingrese los años de experiencia en la labor de " +nameOperRef);
+    div = document.getElementById('referenceSeccion');
+    div.style.display = '';
+}
+
+function capturaTamMuestral(){
+    sampleSize=parseInt((document.getElementById("tamMuestra")).value);
+        for (let j=0;j<=(sampleSize-1);j++){
+            //creamos un nodo <input></input> y agregamos la información
+            let span=document.createElement("span");
+            span.innerHTML=`Toma de tiempo número: ${j+1}`;
+            tiemposReferencia.appendChild(span);
+            let input=document.createElement("input");
+            input.setAttribute("class"," ");
+            tiemposReferencia.appendChild(input);
+            let br=document.createElement("br");
+            tiemposReferencia.appendChild(br);
+        }
+} 
+
+function leerInfRef(){
+    nameOperRef=(document.getElementById("nombreOpRef")).value;
+    experienceOperRef=parseInt((document.getElementById("yearsExp")).value);
     for (let j=0;j<=(sampleSize-1);j++){
-        let time=prompt("ingrese la toma de tiempo número " + (j+1)+" de "+ nameOperRef);
+        let time=(document.getElementById("nombreOpRef")).value;
         times[j]=parseFloat(time);
     }
     document.getElementById("datosIngresados").innerHTML=`La información del operario de referencia es: <br>
