@@ -20,4 +20,5 @@ document.querySelector("#radiofino1").addEventListener("click",describirHolguras
 document.querySelector("#radiofino2").addEventListener("click",describirHolguras);
 document.querySelector("#borrarHolguras").addEventListener("click",recetHolguras);
 //Modulo 3
-document.querySelector("#calcTimeMult").addEventListener("click",calcPromTimeOpers);
+document.querySelector("#numOperarios").addEventListener("input",capturanumOperarios);
+document.querySelector("#InfMult").addEventListener("click",leerInfOperarios);

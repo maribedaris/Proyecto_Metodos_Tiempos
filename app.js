@@ -13,6 +13,7 @@ let time9;
 let time10;
 let list=[];
 let times=[];
+let timesMult=[];
 let range;
 let prom;
 let sampleSize;
@@ -24,6 +25,8 @@ let estandarTimeRefFinal;
 let holguraPost;
 let holguraLuz;
 let holguraEsfuerzo;
+let operario=[];
+let Operariodest1;
 const holguraNeds=0.05;//Holgura para tomar agua, ir al baño, lavarse las manos
 const holguraFatiga=0.04;//Considera la energia que se consume para realizar un trabajo y aliviar la monotonía
 
@@ -130,13 +133,15 @@ function ingresarInfRef(){
 
 function capturaTamMuestral(){
     sampleSize=parseInt((document.getElementById("tamMuestra")).value);
+    localStorage.setItem("tamMuestra",JSON.stringify(sampleSize));
         for (let j=0;j<=(sampleSize-1);j++){
             //creamos un nodo <input></input> y agregamos la información
             let span=document.createElement("span");
             span.innerHTML=`Toma de tiempo número: ${j+1}`;
             tiemposReferencia.appendChild(span);
             let input=document.createElement("input");
-            input.setAttribute("class"," ");
+            let id=j+1;
+            input.setAttribute("id",id);
             tiemposReferencia.appendChild(input);
             let br=document.createElement("br");
             tiemposReferencia.appendChild(br);
@@ -147,7 +152,7 @@ function leerInfRef(){
     nameOperRef=(document.getElementById("nombreOpRef")).value;
     experienceOperRef=parseInt((document.getElementById("yearsExp")).value);
     for (let j=0;j<=(sampleSize-1);j++){
-        let time=(document.getElementById("nombreOpRef")).value;
+        let time=(document.getElementById(j+1)).value;
         times[j]=parseFloat(time);
     }
     document.getElementById("datosIngresados").innerHTML=`La información del operario de referencia es: <br>
@@ -229,10 +234,22 @@ function agregarTolVar(tiempoPromedio,tiempoEstandar){
     llenarObjOperRef();
 }
 
-//SOS:La idea con esta función es recetear los botones seleccionados, pero no me está funcionando
 function recetHolguras() {
-    let element=document.querySelectorAll(`input .holguraVar`)
-        element.checked = false;
+    let radio = document.getElementById("radioPost1");
+    radio.checked = false;
+    radio = document.getElementById("radioPost2");
+    radio.checked = false;
+    radio = document.getElementById("radioLuz1");
+    radio.checked = false;
+    radio = document.getElementById("radioLuz2");
+    radio.checked = false;
+    radio = document.getElementById("radioLuz3");
+    radio.checked = false;
+    radio = document.getElementById("radiofino1");
+    radio.checked = false;
+    radio = document.getElementById("radiofino2");
+    radio.checked = false;
+    document.getElementById("holgurasSelec").innerHTML="";
 }
 
 function describirHolguras(){
@@ -284,10 +301,20 @@ function describirHolguras(){
     document.getElementById("holgurasSelec").innerHTML=textoFinal;
 }
 
+/*Llenado del objeto y guardar en el local Storage*/
 function llenarObjOperRef(){
-    const Operariodest1=new Operariodest(nameOperRef,experienceOperRef,promTimeRef,estandarTimeRefFinal);  
-    console.log(Operariodest1); 
+    Operariodest1=new Operariodest(nameOperRef,experienceOperRef,promTimeRef,estandarTimeRefFinal);  
+    localStorage.setItem("operarioDest",JSON.stringify(Operariodest1));
+    console.log(Operariodest1);
 }
+
+function obtenerObjLS(){
+    if (localStorage. length > 0){
+        Operariodest1=JSON.parse(localStorage.getItem("Operariodest1"));
+        console.log(Operariodest1);
+    } 
+}
+
 
 //--------------------------------------------------------------------------------------------------------------
 /*Módulo 3:Comparación de tiempos.
@@ -309,14 +336,82 @@ function calcPromTimeOpers(){
             let time=prompt("ingrese la toma de tiempo número " + (j+1));
             timesMult[j]=parseFloat(time);
         }
-        const promedioOperarios=calcTimeProm(timesMult);
-        //const estandarOperarios=agregarTolBasic(promedioOperarios);
-        operator[i]=new Operario(nameOper,experienceOper,promedioOperarios); 
-        console.log(operator[i]);
+        
     }
 }
 
-/*Mi idea es hacer comparaciones entre los tiempos estandar finales de los objetos Operario y Operariodest pero aún no tengo muy claro como
-comenzar a hacerlo*/
+/*
+1.Verificamos que tamaño de muestra ingresó el usuario y si no ingresó significa que solo hará uso del 
+módulo 3 y usamos el tamaño de muestra que haya guardado en el localStorage
+2.Creamos los nodos para capturar la información de los operarios a medir
+*/
+function capturanumOperarios(){
+let idNombre;
+let idExp;
+let id;
+let br;
+numOperarios=parseInt((document.getElementById("numOperarios")).value);
+console.log(sampleSize);
+if(typeof(sampleSize) === "undefined"){
+    sampleSize=localStorage.getItem("tamMuestra");}
+for (let j=0;j<=(numOperarios-1);j++){
+    idNombre=`nombre${j+1}`;
+    idExp=`exp${j+1}`;
+    let spanNombre=document.createElement("span");
+    spanNombre.innerHTML=`nombre del Operario número: ${j+1}`;
+    infOperarios.appendChild(spanNombre);
+    let nombreOpe=document.createElement("input");
+    infOperarios.appendChild(nombreOpe);
+    nombreOpe.setAttribute("id",idNombre);
+    let spanExp=document.createElement("span");
+    spanExp.innerHTML=`años de experiencia del Operario número ${j+1}`;
+    infOperarios.appendChild(spanExp);
+    let expOper=document.createElement("input");
+    infOperarios.appendChild(expOper);
+    expOper.setAttribute("id",idExp);
+    br=document.createElement("br");
+    infOperarios.appendChild(br);
+    let p=document.createElement("p");
+    p.innerHTML=`a continuación ingrese los tiempos del operario: ${j+1}`;
+    infOperarios.appendChild(p);
+    for (let i=0;i<=(sampleSize-1);i++){
+        //creamos un nodo <input></input> y agregamos la información
+        let spanTime=document.createElement("span");
+        spanTime.innerHTML=`Toma de tiempo número: ${i+1}`;
+        infOperarios.appendChild(spanTime);
+        let input=document.createElement("input");
+        id=`operador${j+1}Tiempo${i+1}`;
+        input.setAttribute("id",id);
+        infOperarios.appendChild(input);
+        br=document.createElement("br");
+        infOperarios.appendChild(br);
+    }
+    br=document.createElement("br");
+    infOperarios.appendChild(br);
+}
+}
+
+function leerInfOperarios(){
+    for (let i=0;i<=(numOperarios-1);i++){
+    nameOper=(document.getElementById(`nombre${i+1}`)).value;
+    experienceOper=(document.getElementById(`exp${i+1}`)).value;
+    for (let j=0;j<=(sampleSize-1);j++){
+        let time=(document.getElementById(`operador${i+1}Tiempo${j+1}`)).value;
+        timesMult[j]=parseFloat(time);}
+        const promedioOperarios=calcTimeProm(timesMult);
+        console.log(promedioOperarios);
+        //const estandarOperarios=agregarTolBasic(promedioOperarios);
+        operario[i]=new Operario(nameOper,experienceOper,promedioOperarios); 
+        console.log(operario[i]);
+        comparar();
+    }
+}
+
+
+/*A esta no alcancé a trabajarle pero mi plan es realizar las comparaciones con el objeto del operario 
+destacado que está en el localstorage
+/*function comparar(){
+    obtenerObjLS();
+}*/
 
 

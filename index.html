@@ -120,7 +120,7 @@
                 <p>Por favor ingrese los siguientes datos</p>
                 <div>
                     <span>Tamaño de muestra requerido según la tabla</span>
-                        <input type="number" id="tamMuestra" style="width : 50px"/>
+                        <input id="tamMuestra" style="width : 50px"/>
                 </div>
                 <div>
                     <span>Nombre del operario de referencia</span>
@@ -197,9 +197,17 @@
     </section><br>
     <section>
             <h2>Módulo 3:Evaluación de tiempos de varios operarios</h2>
-            <button  href="#" style="width : 180px" id="calcTimeMult"
-                >Ingresar información de varios operarios a medir
-            </button><br>
+            <p>Para realizar comparaciones entre los diferentes operarios que realizan el 
+                trabajo por favor ingrese los siguientes datos:
+            </p>
+            <div>
+                <span>Número de operarios a medir</span>
+                    <input id="numOperarios" style="width : 50px"/>
+            </div>
+            <div id="infOperarios"></div><br>
+            <button  href="#" style="width : 180px" id="InfMult"
+                >Enviar Información
+            </button>
     </section>
 </main> 
 <script src="./objetos.js" ></script>

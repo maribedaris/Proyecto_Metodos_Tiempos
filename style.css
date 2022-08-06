@@ -20,6 +20,11 @@ body p{
   font-weight: 500;
 }
 
+body span{
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
 .table-img{
   width: 480px;
     height: 800px;
