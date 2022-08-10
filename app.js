@@ -96,9 +96,15 @@ function calcRange(){
     const maxim=Math.max.apply(null,listado);
     const minim=Math.min.apply(null,listado);
     range=maxim-minim;
-    document.getElementById("rangeText").innerHTML=`Perfecto,el tiempo máximo es de: ${maxim} y el mínimo
-    de: ${minim} , por tanto, el rango de los datos
-    ingresados es  ${range}`  
+    if (isNaN(range)){
+        document.getElementById("rangeText").innerHTML=`Por favor ingrese los datos de manera correcta y vuelva a oprimir
+        el botón,al menos
+        uno de los valores está vacío o es invalido`
+    }else{
+        document.getElementById("rangeText").innerHTML=`Perfecto,el tiempo máximo es de: ${maxim} y el mínimo
+        de: ${minim} , por tanto, el rango de los datos
+        ingresados es  ${range}`
+    }
 }
 
 //Calcularemos el promedio de los datos ingresados
@@ -106,7 +112,13 @@ function calcProm(){
     const listado=llenarVector();
     const acum=listado.reduce((acumulador,elemento)=>acumulador+elemento,0)
     prom=acum/global;
-    document.getElementById("promText").innerHTML=`El promedio de los datos ingresados es de: ${prom}`
+    if (isNaN(prom)){
+        document.getElementById("rangeText").innerHTML=`Por favor ingrese los datos de manera correcta y vuelva a 
+        calcular el rango y el promedio, al menos
+        uno de los valores está vacío o es invalido`
+    }else{
+        document.getElementById("promText").innerHTML=`El promedio de los datos ingresados es de: ${prom}`
+    }
 }
 
 //Calcularemos el cociente de los datos ingresados
@@ -131,7 +143,8 @@ function ingresarInfRef(){
     div.style.display = '';
 }
 
-function capturaTamMuestral(){
+function capturaTamMuestral(e){
+    document.getElementById('tiemposReferencia').innerHTML = '';
     sampleSize=parseInt((document.getElementById("tamMuestra")).value);
     localStorage.setItem("tamMuestra",JSON.stringify(sampleSize));
         for (let j=0;j<=(sampleSize-1);j++){
@@ -165,6 +178,7 @@ function leerInfRef(){
         let p=document.createElement("p");
         p.innerHTML=time;
         tiemposIngresados.appendChild(p);
+        tiemposIngresados.setAttribute("tablas",id);
     }
 }
 
@@ -345,15 +359,19 @@ function calcPromTimeOpers(){
 módulo 3 y usamos el tamaño de muestra que haya guardado en el localStorage
 2.Creamos los nodos para capturar la información de los operarios a medir
 */
-function capturanumOperarios(){
+
+function capturanumOperarios(e){
 let idNombre;
 let idExp;
 let id;
 let br;
-numOperarios=parseInt((document.getElementById("numOperarios")).value);
-console.log(sampleSize);
+let div = document.getElementById('infOperarios');
 if(typeof(sampleSize) === "undefined"){
     sampleSize=localStorage.getItem("tamMuestra");}
+while (div.firstChild) {
+    div.removeChild(div.firstChild);
+}
+numOperarios=parseInt((document.getElementById("numOperarios")).value);
 for (let j=0;j<=(numOperarios-1);j++){
     idNombre=`nombre${j+1}`;
     idExp=`exp${j+1}`;

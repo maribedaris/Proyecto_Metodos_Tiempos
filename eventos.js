@@ -11,6 +11,7 @@ calcTimePromRef.addEventListener("click", () => calcTimeProm(times));
 calcTimeEstandRef.addEventListener("click", () => agregarTolBasic(promTimeRef));
 calcTimeEstandRefFinal.addEventListener("click", () => agregarTolVar(promTimeRef,estandarTimeRef));
 document.querySelector("#tamMuestra").addEventListener("input",capturaTamMuestral);
+document.getElementById('tamMuestra').addEventListener('keypress', e =>capturaTamMuestral(e) );
 document.querySelector("#radioPost1").addEventListener("click",describirHolguras);
 document.querySelector("#radioPost2").addEventListener("click",describirHolguras);
 document.querySelector("#radioLuz1").addEventListener("click",describirHolguras);
@@ -21,4 +22,5 @@ document.querySelector("#radiofino2").addEventListener("click",describirHolguras
 document.querySelector("#borrarHolguras").addEventListener("click",recetHolguras);
 //Modulo 3
 document.querySelector("#numOperarios").addEventListener("input",capturanumOperarios);
+document.getElementById('numOperarios').addEventListener('keypress', e =>capturanumOperarios(e) );
 document.querySelector("#InfMult").addEventListener("click",leerInfOperarios);
