@@ -10,9 +10,10 @@ class Operariodest{
 
 /*Objeto operarios a medir*/
 class Operario{
-    constructor(nombre,experiencia,tiempoPromedio){
+    constructor(nombre,experiencia,tiempoPromedio,tiempoEstandar){
         this.nombre=nombre;
         this.experiencia=experiencia;
         this.tiempoPromedio=tiempoPromedio;
+        this.tiempoEstandar=tiempoEstandar;
     }
 }

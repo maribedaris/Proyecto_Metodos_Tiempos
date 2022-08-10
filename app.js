@@ -26,7 +26,7 @@ let holguraPost;
 let holguraLuz;
 let holguraEsfuerzo;
 let operario=[];
-let Operariodest1;
+let Operariodest1=0;
 const holguraNeds=0.05;//Holgura para tomar agua, ir al baño, lavarse las manos
 const holguraFatiga=0.04;//Considera la energia que se consume para realizar un trabajo y aliviar la monotonía
 
@@ -93,8 +93,8 @@ function selectFunction(){
 /*Calcularemos el rango de los datos ingresados, es decir el tiempo máximo menos el tiempo mínimo*/
 function calcRange(){
     const listado=llenarVector();
-    const maxim=Math.max.apply(null,listado);
-    const minim=Math.min.apply(null,listado);
+    const maxim=Math.max(...listado); //Uso del operador spread
+    const minim=Math.min(...listado); //Uso del operador spread
     range=maxim-minim;
     if (isNaN(range)){
         document.getElementById("rangeText").innerHTML=`Por favor ingrese los datos de manera correcta y vuelva a oprimir
@@ -178,7 +178,6 @@ function leerInfRef(){
         let p=document.createElement("p");
         p.innerHTML=time;
         tiemposIngresados.appendChild(p);
-        tiemposIngresados.setAttribute("tablas",id);
     }
 }
 
@@ -319,13 +318,12 @@ function describirHolguras(){
 function llenarObjOperRef(){
     Operariodest1=new Operariodest(nameOperRef,experienceOperRef,promTimeRef,estandarTimeRefFinal);  
     localStorage.setItem("operarioDest",JSON.stringify(Operariodest1));
-    console.log(Operariodest1);
 }
 
 function obtenerObjLS(){
-    if (localStorage. length > 0){
-        Operariodest1=JSON.parse(localStorage.getItem("Operariodest1"));
-        console.log(Operariodest1);
+    if (Operariodest1==0){
+        Operariodest1=JSON.parse(localStorage.getItem("operarioDest"));
+        return Operariodest1;
     } 
 }
 
@@ -336,24 +334,6 @@ Carga de información  de los tiempos de diferentes operarios, de acuerdo al nú
 esto se podría lograr a travez de un JSON, pero es algo que aún no vemos,por ahora solicitaré al usuario la
 información a traves de un promp) con esta información se calcula el tiempo promedio, Valoración de tiempos de
 los demás operarios*/
-
-/*Ahora se calculará el tiempo promedio observado de los operarios que realizan la misma función para valorar
-su desempeño*/ 
-function calcPromTimeOpers(){
-    let operatorsNumber=prompt("Por favor ingrese el número de operarios");
-    let timesMult=[];
-    operator=[];
-    for(let i=0;i<=(operatorsNumber-1);i++){
-        nameOper=prompt("Ingrese el nombre del operario "+ (i+1) );
-        experienceOper=prompt("Ingrese los años de experiencia en la labor del operario "+ (i+1));
-        for (let j=0;j<=(sampleSize-1);j++){
-            let time=prompt("ingrese la toma de tiempo número " + (j+1));
-            timesMult[j]=parseFloat(time);
-        }
-        
-    }
-}
-
 /*
 1.Verificamos que tamaño de muestra ingresó el usuario y si no ingresó significa que solo hará uso del 
 módulo 3 y usamos el tamaño de muestra que haya guardado en el localStorage
@@ -366,8 +346,7 @@ let idExp;
 let id;
 let br;
 let div = document.getElementById('infOperarios');
-if(typeof(sampleSize) === "undefined"){
-    sampleSize=localStorage.getItem("tamMuestra");}
+typeof(sampleSize)==="undefined" && (sampleSize=localStorage.getItem("tamMuestra")); //Operador lógico AND
 while (div.firstChild) {
     div.removeChild(div.firstChild);
 }
@@ -411,25 +390,45 @@ for (let j=0;j<=(numOperarios-1);j++){
 
 function leerInfOperarios(){
     for (let i=0;i<=(numOperarios-1);i++){
-    nameOper=(document.getElementById(`nombre${i+1}`)).value;
-    experienceOper=(document.getElementById(`exp${i+1}`)).value;
+        nameOper=(document.getElementById(`nombre${i+1}`)).value;
+        experienceOper=(document.getElementById(`exp${i+1}`)).value;
+        let p=document.createElement("p");
+        p.setAttribute("id",`p${i}`);
+        multP.appendChild(p);
+        p.innerHTML=document.getElementById(`p${i}`).innerHTML=`La información del operario ${i+1} es:<br>Nombre: ${nameOper}<br> Años de experiencia: ${experienceOper}`;
+        operario[i]=new Operario(nameOper,experienceOper);
+    }
+}
+
+function calcularPromMult(){
+for (let i=0;i<=(numOperarios-1);i++){
     for (let j=0;j<=(sampleSize-1);j++){
         let time=(document.getElementById(`operador${i+1}Tiempo${j+1}`)).value;
-        timesMult[j]=parseFloat(time);}
-        const promedioOperarios=calcTimeProm(timesMult);
-        console.log(promedioOperarios);
-        //const estandarOperarios=agregarTolBasic(promedioOperarios);
-        operario[i]=new Operario(nameOper,experienceOper,promedioOperarios); 
-        console.log(operario[i]);
-        comparar();
+        timesMult[j]=parseFloat(time);
+        }
+    const promedioOperarios=calcTimeProm(timesMult);
+    operario[i].tiempoPromedio=promedioOperarios;
+    console.log(operario[i]);
+    let p=document.createElement("p");
+    p.setAttribute("id",`p${i+1}`);
+    promMultP.appendChild(p);
+    p.innerHTML=document.getElementById(`p${i+1}`).innerHTML=`El tiempo promedio del operario ${operario[i].nombre} es:${promedioOperarios}`;
     }
 }
 
 
-/*A esta no alcancé a trabajarle pero mi plan es realizar las comparaciones con el objeto del operario 
-destacado que está en el localstorage
-/*function comparar(){
-    obtenerObjLS();
-}*/
+function compararProm(){
+    Operariodest1=Operariodest1 || obtenerObjLS(); //Operador lógico OR
+    let {nombreRef,experienciaRef,tiempoPromRef}=Operariodest1; //Desestructuración;
+    let p=document.createElement("p");
+    alert(`Tenga en cuenta que las comparaciones se realizarán con el operario ${nombreRef} que tiene ${experienciaRef} años de experiencia, cuyo tiempo promedio es ${tiempoPromRef}, si este no es el operario destacado que quiere comparar, por favor ingrese la información en el módulo 2`);
+}
 
 
+/*console.log(operario[i]);
+    const estandarOperarios=agregarTolBasic(promedioOperarios);
+    operario[i]=new Operario(nameOper,experienceOper,promedioOperarios,estandarOperarios); 
+    let p=document.createElement("p");
+    p.setAttribute("id",`p${i}`);
+    timeMult.appendChild(p);
+    p.innerHTML=document.getElementById(`p${i}`).innerHTML=`La información del operario ${i+1} es: ${JSON.stringify(operario[i])}<br>`;*/

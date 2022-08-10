@@ -24,3 +24,6 @@ document.querySelector("#borrarHolguras").addEventListener("click",recetHolguras
 document.querySelector("#numOperarios").addEventListener("input",capturanumOperarios);
 document.getElementById('numOperarios').addEventListener('keypress', e =>capturanumOperarios(e) );
 document.querySelector("#InfMult").addEventListener("click",leerInfOperarios);
+document.querySelector("#promMult").addEventListener("click",calcularPromMult);
+document.querySelector("#promComp").addEventListener("click",compararProm);
+
