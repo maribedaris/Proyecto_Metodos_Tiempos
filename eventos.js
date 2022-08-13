@@ -14,16 +14,21 @@ document.querySelector("#tamMuestra").addEventListener("input",capturaTamMuestra
 document.getElementById('tamMuestra').addEventListener('keypress', e =>capturaTamMuestral(e) );
 document.querySelector("#radioPost1").addEventListener("click",describirHolguras);
 document.querySelector("#radioPost2").addEventListener("click",describirHolguras);
+document.querySelector("#radioPost3").addEventListener("click",describirHolguras);
 document.querySelector("#radioLuz1").addEventListener("click",describirHolguras);
 document.querySelector("#radioLuz2").addEventListener("click",describirHolguras);
 document.querySelector("#radioLuz3").addEventListener("click",describirHolguras);
+document.querySelector("#radioLuz4").addEventListener("click",describirHolguras);
 document.querySelector("#radiofino1").addEventListener("click",describirHolguras);
 document.querySelector("#radiofino2").addEventListener("click",describirHolguras);
-document.querySelector("#borrarHolguras").addEventListener("click",recetHolguras);
-//Modulo 3
+document.querySelector("#radiofino3").addEventListener("click",describirHolguras);
+//Módulo 3
+document.querySelector("#CalcTimeFree").addEventListener("click",converMin);
+document.querySelector("#entreFechas").addEventListener("click",tareasEntreFechas);
+//Modulo 4
 document.querySelector("#numOperarios").addEventListener("input",capturanumOperarios);
 document.getElementById('numOperarios').addEventListener('keypress', e =>capturanumOperarios(e) );
 document.querySelector("#InfMult").addEventListener("click",leerInfOperarios);
 document.querySelector("#promMult").addEventListener("click",calcularPromMult);
-document.querySelector("#promComp").addEventListener("click",compararProm);
+document.querySelector("#estMult").addEventListener("click",calcularEstMult);
 

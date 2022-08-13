@@ -33,48 +33,57 @@
         </section>
         <br>
         <section>
-            <h2>Por favor ingresa las lecturas  de tiempo realizadas separadas con "." en caso de ser un número
-                decimal
+            <h2>Por favor ingresa las lecturas  de tiempo (en minutos) realizadas separadas con "." en caso de ser un número decimal
             </h2>
             <div>
-                <span>Primer valor</span>
+                <span>Primer valor:</span>
                 <input type="number" id="value1" style="width : 50px"/>
+                <span>minutos</span>
             </div>
             <div>
-                <span>Segundo Valor</span>
+                <span>Segundo Valor:</span>
                 <input type="number" id="value2" style="width : 50px"/>
+                <span>minutos</span>
             </div>
             <div>
-                <span>Tercer Valor</span>
+                <span>Tercer Valor:</span>
                 <input type="number" id="value3" style="width : 50px"/>
+                <span>minutos</span>
             </div>
             <div>
-                <span>Cuarto Valor</span>
+                <span>Cuarto Valor:</span>
                 <input type="number" id="value4" style="width : 50px"/>
+                <span>minutos</span>
             </div>
             <div>
-                <span>Quinto Valor</span>
+                <span>Quinto Valor:</span>
                 <input type="number" id="value5" style="width : 50px"/>
+                <span>minutos</span>
             </div>
             <div style="display:none" id="ocult6">
-                <span>Sexto Valor</span>
+                <span>Sexto Valor:</span>
                 <input type="number" id="value6" style="width : 50px"/>
+                <span>minutos</span>
             </div>
             <div style="display:none" id="ocult7">
-                <span>Septimo Valor</span>
+                <span>Septimo Valor:</span>
                 <input type="number" id="value7" style="width : 50px"/>
+                <span>minutos</span>
             </div>
             <div style="display:none" id="ocult8">
-                <span>Octavo Valor</span>
+                <span>Octavo Valor:</span>
                 <input type="number" id="value8" style="width : 50px"/>
+                <span>minutos</span>
             </div>
             <div style="display:none" id="ocult9">
-                <span>Noveno Valor</span>
+                <span>Noveno Valor:</span>
                 <input type="number" id="value9" style="width : 50px"/>
+                <span>minutos</span>
             </div>
             <div style="display:none" id="ocult10">
-                <span>Decimo Valor</span>
+                <span>Decimo Valor:</span>
                 <input type="number" id="value10" style="width : 50px"/>
+                <span>minutos</span>
             </div>
     </section><br>
     <section>
@@ -166,6 +175,8 @@
                 <input type="radio" id="radioPost1" name="postura" value="parado" class="holguraVar"/>
                 <span>Incómodo (fexionado, acostado, en cuclillas)</span>
                 <input type="radio"  id="radioPost2" name="postura" value="incomodo" class="holguraVar"/>
+                <span>Ninguna holgura por postura</span>
+                <input type="radio"  id="radioPost3" name="postura" value="ninguna" class="holguraVar"/>
             </div>
             <div>
                 <p>Niveles de iluminación</p>
@@ -175,6 +186,8 @@
                 <input type="radio" id="radioLuz2" name="luz" value="luz2" class="holguraVar"/>
                 <span>Tres niveles (categoría IES completa) abajo de lo recomendado</span>
                 <input type="radio" id="radioLuz3" name="luz" value="luz3" class="holguraVar"/>
+                <span>Ninguna holgura por iluminación</span>
+                <input type="radio"  id="radioLuz4" name="luz" value="ninguna" class="holguraVar"/>
             </div>
             <div>
                 <p>Esfuerzo visual (atención estrecha)</p>
@@ -182,12 +195,11 @@
                 <input type="radio" id="radiofino1" name="esfuerzo" value="fino1" class="holguraVar"/>
                 <span>Trabajo muy fino</span>
                 <input type="radio"id="radiofino2" name="esfuerzo" value="fino2" class="holguraVar"/>
+                <span>Ninguna holgura por esfuerzo</span>
+                <input type="radio"  id="radiofino3" name="esfuerzo" value="ninguna" class="holguraVar"/>
             </div>
             <div>
                 <p id="holgurasSelec"></p>
-                <button  href="#" style="width : 180px" id="borrarHolguras"
-                    >Limpiar holguras seleccionadas
-                </button><br><br>
                 <button  href="#" style="width : 180px" id="calcTimeEstandRefFinal"
                     >4.Verificar holguras
                 </button>
@@ -196,7 +208,28 @@
             <hr>
     </section><br>
     <section>
-            <h2>Módulo 3:Evaluación de tiempos de varios operarios</h2>
+        <h2>Módulo 3</h2>
+        <p>Calcular cantidad de trabajos promedio entre fechas</p>
+        <p>Primero calcularemos el tiempo que el operario destacado trabaja durante la jornada laboral, el tiempo determinado en las holguras y la cantidad de veces que repite la tarea</p>
+        <span>Jornada laboral de un día</span>
+        <input type="number"id="jornada"/>
+        <span>horas</span><br><br>
+        <button  href="#" style="width : 180px" id="CalcTimeFree"
+        >Calcular tiempo operativo y tiempo libre al día
+        </button>
+        <p id="indOperDest"></p><br>
+        <p>Calcule cuantas veces el operario destacado podrá realizar la tarea entre dos fechas específicas</p>
+        <span>fecha de inicio</span>
+        <input type="date"id="dateInit"/>
+        <span>fecha fin</span>
+        <input type="date"id="dateFin"/><br><br>
+        <button  href="#" style="width : 180px" id="entreFechas"
+                >Calcular
+            </button>
+        <p id="IndDates"></p><hr>
+    </section>
+    <section>
+            <h2>Módulo 4:Evaluación de tiempos de varios operarios</h2>
             <p>Para realizar comparaciones entre los diferentes operarios que realizan el 
                 trabajo por favor ingrese los siguientes datos:
             </p>
@@ -212,15 +245,56 @@
             <button  href="#" style="width : 180px" id="promMult"
             >Calcular tiempo promedio de los operarios
             </button>
+            <p id="estandTimeRefMult"></p>
             <div id="promMultP"></div><br>
-            <button  href="#" style="width : 180px" id="promComp"
-            >Comparar tiempos promedio
+            <button  href="#" style="width : 180px" id="estMult"
+            >Agregar tolerancias básicas al tiempo de referencia
             </button>
-
+            <div id="timeEstSectionP"></div><br>
+            <!--<p>Para las holguras de descanso variables por favor seleccione la opción a usar:</p>
+            <div>
+                <span>Seleccionar las mismas holguras del operario de referencia</span>
+                <input type="radio" id="" name="holgurasMult" value="parado" class="holguraVar"/>
+                <span>Seleccionar holguras diferentes a las del operario de referencia para todos los empleados</span>
+                <input type="radio"  id="" name="holgurasMult" value="incomodo" class="holguraVar"/>
+                <span>Seleccionar holguras diferentes para cada empleado</span>
+                <input type="radio"  id="" name="holgurasMult" value="incomodo" class="holguraVar"/>
+            </div>
+            <div>
+                <h2>Holguras de descanso variables:</h2>
+                <div>
+                    <p>holguras por postura</p>
+                    <span>parado</span>
+                    <input type="radio" id="radio2Post1" name="postura" value="parado" class="holguraVar"/>
+                    <span>Incómodo (fexionado, acostado, en cuclillas)</span>
+                    <input type="radio"  id="radio2Post2" name="postura" value="incomodo" class="holguraVar"/>
+                </div>
+                <div>
+                    <p>Niveles de iluminación</p>
+                    <span>Un nivel (una subcategoría de IES) abajo de lo recomendado</span>
+                    <input type="radio" id="radio2Luz1" name="luz" value="luz1" class="holguraVar"/>
+                    <span>Dos niveles abajo de lo recomendado</span>
+                    <input type="radio" id="radio2Luz2" name="luz" value="luz2" class="holguraVar"/>
+                    <span>Tres niveles (categoría IES completa) abajo de lo recomendado</span>
+                    <input type="radio" id="radio2Luz3" name="luz" value="luz3" class="holguraVar"/>
+                </div>
+                <div>
+                    <p>Esfuerzo visual (atención estrecha)</p>
+                    <span>Trabajo fino</span>
+                    <input type="radio" id="radio2fino1" name="esfuerzo" value="fino1" class="holguraVar"/>
+                    <span>Trabajo muy fino</span>
+                    <input type="radio"id="radio2fino2" name="esfuerzo" value="fino2" class="holguraVar"/>
+                </div>
+            </div>
+            <button  href="#" style="width : 180px" id="promComp"
+                >Comparar tiempos promedio sin holguras
+            </button><br><br>-->
     </section>
 </main> 
 <script src="./objetos.js" ></script>
 <script src="./app.js" ></script>
 <script src="./eventos.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luxon-business-days/dist/index.js"></script>
 </body>
 </html>

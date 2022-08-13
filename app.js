@@ -13,7 +13,6 @@ let time9;
 let time10;
 let list=[];
 let times=[];
-let timesMult=[];
 let range;
 let prom;
 let sampleSize;
@@ -26,7 +25,10 @@ let holguraPost;
 let holguraLuz;
 let holguraEsfuerzo;
 let operario=[];
-let Operariodest1=0;
+let operariodest1=0;
+let holgurasVarTot;
+let cont=0;
+let tareasDia;
 const holguraNeds=0.05;//Holgura para tomar agua, ir al baño, lavarse las manos
 const holguraFatiga=0.04;//Considera la energia que se consume para realizar un trabajo y aliviar la monotonía
 
@@ -101,9 +103,9 @@ function calcRange(){
         el botón,al menos
         uno de los valores está vacío o es invalido`
     }else{
-        document.getElementById("rangeText").innerHTML=`Perfecto,el tiempo máximo es de: ${maxim} y el mínimo
-        de: ${minim} , por tanto, el rango de los datos
-        ingresados es  ${range}`
+        document.getElementById("rangeText").innerHTML=`Perfecto,el tiempo máximo es de: ${maxim} minutos y el mínimo
+        de: ${minim} minutos, por tanto, el rango de los datos
+        ingresados es  ${range} minutos`
     }
 }
 
@@ -117,7 +119,7 @@ function calcProm(){
         calcular el rango y el promedio, al menos
         uno de los valores está vacío o es invalido`
     }else{
-        document.getElementById("promText").innerHTML=`El promedio de los datos ingresados es de: ${prom}`
+        document.getElementById("promText").innerHTML=`El promedio de los datos ingresados es de: ${prom} minutos`
     }
 }
 
@@ -150,7 +152,7 @@ function capturaTamMuestral(e){
         for (let j=0;j<=(sampleSize-1);j++){
             //creamos un nodo <input></input> y agregamos la información
             let span=document.createElement("span");
-            span.innerHTML=`Toma de tiempo número: ${j+1}`;
+            span.innerHTML=`Toma de tiempo número: ${j+1} (minutos)`;
             tiemposReferencia.appendChild(span);
             let input=document.createElement("input");
             let id=j+1;
@@ -176,7 +178,7 @@ function leerInfRef(){
     for (const time of times){
         //creamos un nodo <p></p> y agregamos la información
         let p=document.createElement("p");
-        p.innerHTML=time;
+        p.innerHTML=`${time} minutos`;
         tiemposIngresados.appendChild(p);
     }
 }
@@ -186,7 +188,7 @@ function calcTimeProm(listado){
     const acumTimeRef=listado.reduce((acumulador,elemento)=>acumulador+elemento,0)
     promTimeRef=acumTimeRef/sampleSize;
     document.getElementById("promTimeRef").innerHTML=`La información del tiempo promedio de 
-    referencia es: ${promTimeRef}` 
+    referencia es: ${promTimeRef} minutos` 
     return promTimeRef;
 }
 
@@ -194,9 +196,12 @@ function calcTimeProm(listado){
 en el trabajo al tiempo promedio*/
 function agregarTolBasic(tiempoPromedio){
     estandarTimeRef=tiempoPromedio*(1+holguraFatiga+holguraNeds);
-    document.getElementById("estandTimeRef").innerHTML=`tiempo estandar básico
-    (sumando las holguras por fátiga y necesidades básicas): ${estandarTimeRef}`
+    if (cont==0){
+        document.getElementById("estandTimeRef").innerHTML=`tiempo estandar básico
+        (sumando las holguras por fátiga y necesidades básicas): ${estandarTimeRef} minutos`}
+    return estandarTimeRef;
 }
+
 
 /*Existen holguras adicionales que podemos agregar dependiendo de la situación, estas son llamadas 
 holguras de descanso variables, vamos a sumar estas holguras dependiendo de las seleccionadas por el usuario*/
@@ -213,6 +218,9 @@ function agregarTolVar(tiempoPromedio,tiempoEstandar){
             case "incomodo":
                 holguraPostVal=0.1;
             break;
+            case "ninguna":
+                holguraPostVal=0;
+            break;
         }
     }
     if (document.querySelector('input[name="luz"]:checked')!=null){
@@ -227,6 +235,9 @@ function agregarTolVar(tiempoPromedio,tiempoEstandar){
             case "luz3":
                 holguraLuzVal=0.05;
             break;
+            case "ninguna":
+                holguraLuzVal=0;
+            break;
         }
     }
     if (document.querySelector('input[name="esfuerzo"]:checked')!=null){
@@ -238,31 +249,16 @@ function agregarTolVar(tiempoPromedio,tiempoEstandar){
             case "fino2":
                 holguraEsfuerzoVal=0.05;
             break;
+            case "ninguna":
+                holguraEsfuerzoVal=0;
+            break;
         }
     }
-    const holgurasVarTot=holguraPostVal+holguraEsfuerzoVal+holguraLuzVal;
+    holgurasVarTot=holguraPostVal+holguraEsfuerzoVal+holguraLuzVal;
     estandarTimeRefFinal=tiempoEstandar+tiempoPromedio*(holgurasVarTot);
     document.getElementById("estandTimeRefFinal").innerHTML=`tiempo estandar final
-    (sumando las holguras básicas y variables): ${estandarTimeRefFinal}`
+    (sumando las holguras básicas y variables): ${estandarTimeRefFinal} minutos`
     llenarObjOperRef();
-}
-
-function recetHolguras() {
-    let radio = document.getElementById("radioPost1");
-    radio.checked = false;
-    radio = document.getElementById("radioPost2");
-    radio.checked = false;
-    radio = document.getElementById("radioLuz1");
-    radio.checked = false;
-    radio = document.getElementById("radioLuz2");
-    radio.checked = false;
-    radio = document.getElementById("radioLuz3");
-    radio.checked = false;
-    radio = document.getElementById("radiofino1");
-    radio.checked = false;
-    radio = document.getElementById("radiofino2");
-    radio.checked = false;
-    document.getElementById("holgurasSelec").innerHTML="";
 }
 
 function describirHolguras(){
@@ -270,7 +266,6 @@ function describirHolguras(){
     let holguraEsfuerzoText="";
     let holguraPostText="";
     let textoFinal="";
-
     if (document.querySelector('input[name="postura"]:checked')!=null){
         holguraPost= document.querySelector('input[name=postura]:checked').value;
         switch (holguraPost) {
@@ -279,6 +274,9 @@ function describirHolguras(){
             break;
             case "incomodo":
                 holguraPostText="Incomodo";
+            break;
+            case "ninguna":
+                holguraPostText="Ninguna holgura por postura";
             break;
         }
     }
@@ -294,6 +292,9 @@ function describirHolguras(){
             case "luz3":
                 holguraLuzText="Tres niveles (categoría IES completa) abajo de lo recomendado";
             break;
+            case "ninguna":
+                holguraLuzText="Ninguna holgura por la iluminación";
+            break;
         }
     }
     if (document.querySelector('input[name="esfuerzo"]:checked')!=null){
@@ -304,6 +305,9 @@ function describirHolguras(){
             break;
             case "fino2":
                 holguraEsfuerzoText="Trabajo muy fino";
+            break;
+            case "ninguna":
+                holguraEsfuerzoText="Ninguna holgura por esfuerzo";
             break;
         }
     }
@@ -316,20 +320,63 @@ function describirHolguras(){
 
 /*Llenado del objeto y guardar en el local Storage*/
 function llenarObjOperRef(){
-    Operariodest1=new Operariodest(nameOperRef,experienceOperRef,promTimeRef,estandarTimeRefFinal);  
-    localStorage.setItem("operarioDest",JSON.stringify(Operariodest1));
+    operariodest1=new Operariodest(nameOperRef,experienceOperRef,promTimeRef,estandarTimeRefFinal);  
+    localStorage.setItem("operarioDest",JSON.stringify(operariodest1));
 }
 
 function obtenerObjLS(){
-    if (Operariodest1==0){
-        Operariodest1=JSON.parse(localStorage.getItem("operarioDest"));
-        return Operariodest1;
+    if (operariodest1==0){
+        operariodest1=JSON.parse(localStorage.getItem("operarioDest"));
+        return operariodest1;
     } 
 }
 
+//--------------------------------------------------------------------------------------------------------------
+/*Módulo 3:Cálculos con el operario destacado. En este módulo se incluyeron algunos cálculos como la cantidad de veces al día que el operario repite la tarea, el tiempo trabajado durante el día y el tiempo libre, además se cálcula el número de veces que se realizará la tarea entre un intervalo de fechas considerando solo días hábiles*/
+function converMin(){
+    let jornada=document.getElementById("jornada").value;
+    let jornadaMin=jornada*60;
+    operariodest1=operariodest1 || obtenerObjLS(); 
+    let {nombreRef,tiempoEstRef}=operariodest1; 
+    let minProduct=jornadaMin/(1+holguraNeds+holguraFatiga+holgurasVarTot)
+    let horasProduc=(minProduct/60);
+    let horasLib=jornada-horasProduc;
+    tareasDia=Math.floor(jornadaMin/(tiempoEstRef));
+    document.getElementById("indOperDest").innerHTML=`El operario ${nombreRef} tiene una jornada de ${horasProduc} 
+    horas productivas y de ${horasLib} horas libres de acuerdo a las holguras implementadas durante el día; y realiza 
+    la tarea estudiada un total de ${tareasDia} veces al día`;
+}
+
+function tareasEntreFechas(){
+let date1=(document.getElementById("dateInit").value);
+let año1=parseInt(date1.substring(0, 4));
+let mes1=parseInt(date1.substring(5, 7));
+let dia1=parseInt(date1.substring(8,10));
+let dateInit = DateTime.local(año1,mes1,dia1);
+let date2=(document.getElementById("dateFin").value);
+let año2=parseInt(date2.substring(0, 4));
+let mes2=parseInt(date2.substring(5, 7));
+let dia2=parseInt(date2.substring(8,10));
+let dateFin = DateTime.local(año2,mes2,dia2);
+const interval=luxon.Interval;
+const int=interval.fromDateTimes(dateInit,dateFin);
+let diasDif=(int.length('days'));
+let weekendCont=0;
+let dt=dateInit.minus({days:1});
+for (let i=0;i<=diasDif;i++){
+    dt=dt.plus({days:1});
+    if ((dt.weekday==6)||(dt.weekday==7)){
+        weekendCont=weekendCont+1
+    }
+}
+let diasLab=diasDif-weekendCont;
+tareasTot=diasLab*tareasDia;
+document.getElementById("IndDates").innerHTML=`El operario destacado entre el día ${date1} y el día ${date2} puede realizar la tarea un total de ${tareasTot} veces, considerando que de los ${diasDif} días entre las 
+dos fechas solo ${diasLab} días son laborales (lunes-Viernes) sin considerar días festivos`
+}
 
 //--------------------------------------------------------------------------------------------------------------
-/*Módulo 3:Comparación de tiempos.
+/*Módulo 4:Comparación de tiempos.
 Carga de información  de los tiempos de diferentes operarios, de acuerdo al número de muestra arrojado en el paso anterior (acá creo que 
 esto se podría lograr a travez de un JSON, pero es algo que aún no vemos,por ahora solicitaré al usuario la
 información a traves de un promp) con esta información se calcula el tiempo promedio, Valoración de tiempos de
@@ -374,7 +421,7 @@ for (let j=0;j<=(numOperarios-1);j++){
     for (let i=0;i<=(sampleSize-1);i++){
         //creamos un nodo <input></input> y agregamos la información
         let spanTime=document.createElement("span");
-        spanTime.innerHTML=`Toma de tiempo número: ${i+1}`;
+        spanTime.innerHTML=`Toma de tiempo número: ${i+1} (minutos)`;
         infOperarios.appendChild(spanTime);
         let input=document.createElement("input");
         id=`operador${j+1}Tiempo${i+1}`;
@@ -397,29 +444,44 @@ function leerInfOperarios(){
         multP.appendChild(p);
         p.innerHTML=document.getElementById(`p${i}`).innerHTML=`La información del operario ${i+1} es:<br>Nombre: ${nameOper}<br> Años de experiencia: ${experienceOper}`;
         operario[i]=new Operario(nameOper,experienceOper);
+        for (let j=0;j<=(sampleSize-1);j++){
+            let time=(document.getElementById(`operador${i+1}Tiempo${j+1}`)).value;
+            operario[i].tiemposOperario[j]=parseFloat(time);
+            //creamos un nodo <p></p> y agregamos la información
+            let p=document.createElement("p");
+            p.innerHTML=`tiempo ${j+1}: ${time} minutos`;
+            multP.appendChild(p);   
+            }
     }
 }
 
 function calcularPromMult(){
 for (let i=0;i<=(numOperarios-1);i++){
-    for (let j=0;j<=(sampleSize-1);j++){
-        let time=(document.getElementById(`operador${i+1}Tiempo${j+1}`)).value;
-        timesMult[j]=parseFloat(time);
-        }
-    const promedioOperarios=calcTimeProm(timesMult);
+    const promedioOperarios=calcTimeProm(operario[i].tiemposOperario);
     operario[i].tiempoPromedio=promedioOperarios;
-    console.log(operario[i]);
     let p=document.createElement("p");
-    p.setAttribute("id",`p${i+1}`);
+    p.setAttribute("id",`promP${i+1}`);
     promMultP.appendChild(p);
-    p.innerHTML=document.getElementById(`p${i+1}`).innerHTML=`El tiempo promedio del operario ${operario[i].nombre} es:${promedioOperarios}`;
+    p.innerHTML=document.getElementById(`promP${i+1}`).innerHTML=`El tiempo promedio del operario ${operario[i].nombre} es:${promedioOperarios} minutos`;
     }
 }
 
+function calcularEstMult(){
+    cont=1;
+    for (let i=0;i<=(numOperarios-1);i++){
+        let promOper=operario[i].tiempoPromedio;
+        agregarTolBasic(promOper);
+        operario[i].tiempoEstandar=agregarTolBasic(promOper);
+        let p=document.createElement("p");
+        p.setAttribute("id",`estandP${i+1}`);
+        timeEstSectionP.appendChild(p);
+        p.innerHTML=document.getElementById(`estandP${i+1}`).innerHTML=`El tiempo estandar básico del operario ${operario[i].nombre} es:${estandarTimeRef} minutos`;
+        }
+}
 
 function compararProm(){
-    Operariodest1=Operariodest1 || obtenerObjLS(); //Operador lógico OR
-    let {nombreRef,experienciaRef,tiempoPromRef}=Operariodest1; //Desestructuración;
+    operariodest1=operariodest1 || obtenerObjLS(); //Operador lógico OR
+    let {nombreRef,experienciaRef,tiempoPromRef}=operariodest1; //Desestructuración;
     let p=document.createElement("p");
     alert(`Tenga en cuenta que las comparaciones se realizarán con el operario ${nombreRef} que tiene ${experienciaRef} años de experiencia, cuyo tiempo promedio es ${tiempoPromRef}, si este no es el operario destacado que quiere comparar, por favor ingrese la información en el módulo 2`);
 }

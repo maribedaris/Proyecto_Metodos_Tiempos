@@ -15,5 +15,6 @@ class Operario{
         this.experiencia=experiencia;
         this.tiempoPromedio=tiempoPromedio;
         this.tiempoEstandar=tiempoEstandar;
+        this.tiemposOperario=[];
     }
 }
