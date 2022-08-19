@@ -15,7 +15,7 @@ let list=[];
 let times=[];
 let range;
 let prom;
-let sampleSize;
+let sampleSize=0;
 let nameOperRef;
 let experienceOperRef;
 let promTimeRef;
@@ -29,6 +29,7 @@ let operariodest1=0;
 let holgurasVarTot;
 let cont=0;
 let tareasDia;
+let indicador;
 const holguraNeds=0.05;//Holgura para tomar agua, ir al baño, lavarse las manos
 const holguraFatiga=0.04;//Considera la energia que se consume para realizar un trabajo y aliviar la monotonía
 
@@ -125,10 +126,58 @@ function calcProm(){
 
 //Calcularemos el cociente de los datos ingresados
 function calcIndicador(){
-    const indicador=(range/prom);
+    indicador=(range/prom);
+    indicador=indicador.toFixed(2);
     document.getElementById("indicatorText").innerHTML=`El cociente del rango y la media es de: ${indicador}`
-    div = document.getElementById('float-section');
-    div.style.display = '';
+    aproximar();
+    buscarTamanio();
+}
+
+function aproximar(){
+    if (indicador<1){
+        let aprox=(indicador*100);
+        if (aprox%2==!0){
+            aprox=aprox+1;
+            let aproxStr=aprox+'';
+            let indicadorStr=indicador+'';
+            indicadorStr=indicadorStr.slice(0,2)+aproxStr;
+            indicador=parseFloat(indicadorStr);
+        }
+    }else{
+        let indParte=indicador+'';
+        let parte=indicadorStr=indParte.slice(2,4);
+        if (parte%2==!0){
+            parte=parseInt(parte)+1;
+            let parteStr=parte+'';
+            let indicadorStr=indicador+'';
+            indicadorStr=indicadorStr.slice(0,2)+parteStr;
+            indicador=parseFloat(indicadorStr);
+        }
+    }
+    
+}
+
+function buscarTamanio(){
+    fetch('./datos.json')
+    .then((res)=>res.json())
+    .then((tamaños)=>{
+        for (let i=0;i<tamaños.length;i++){
+            if (tamaños[i].Indicador==indicador){
+                if (global==5){
+                    sampleSize=tamaños[i].Cinco;
+            }
+            else{
+                sampleSize=tamaños[i].Diez;
+            }
+            }
+        }
+        console.log(sampleSize);
+        if (sampleSize==0){
+            document.getElementById("tamMuestraText").innerHTML=`Tiene uno o más datos atipicos (demasiado alejado de los demás datos), por favor vuelva a realizar la toma del tiempo y reemplace este dato para poder darle un tamaño de muestra`
+        }else{
+        document.getElementById("tamMuestraText").innerHTML=`El tamaño de muestra o número de mediciones que deben realizarse para obtener el tiempo promedio con un 95% de confianza es de: ${sampleSize}`
+    }
+    })
 }
 
 //-------------------------------------------------------------------------------------------------------------
@@ -143,11 +192,11 @@ que este será nuestro tiempo promedio de referencia*/
 function ingresarInfRef(){
     div = document.getElementById('referenceSeccion');
     div.style.display = '';
+    capturaTamMuestral();
 }
 
-function capturaTamMuestral(e){
+function capturaTamMuestral(){
     document.getElementById('tiemposReferencia').innerHTML = '';
-    sampleSize=parseInt((document.getElementById("tamMuestra")).value);
     localStorage.setItem("tamMuestra",JSON.stringify(sampleSize));
         for (let j=0;j<=(sampleSize-1);j++){
             //creamos un nodo <input></input> y agregamos la información

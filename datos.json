@@ -1,0 +1,292 @@
+[
+{
+    "Indicador": 0,
+    "Cinco": 0,
+    "Diez": 0
+},
+{
+    "Indicador": "0.01",
+    "Cinco": 1,
+    "Diez": 1
+},
+{
+    "Indicador": "0.02",
+    "Cinco": 1,
+    "Diez": 1
+},
+{
+    "Indicador": "0.03",
+    "Cinco": 1,
+    "Diez": 1
+},
+{
+    "Indicador": "0.04",
+    "Cinco": 1,
+    "Diez": 1
+},
+{
+    "Indicador": "0.05",
+    "Cinco": 1,
+    "Diez": 1
+},
+{
+    "Indicador": "0.06",
+    "Cinco": 1,
+    "Diez": 1
+},
+{
+    "Indicador": "0.07",
+    "Cinco": 1,
+    "Diez": 1
+},
+{
+    "Indicador": "0.08",
+    "Cinco": 1,
+    "Diez": 1
+},
+{
+    "Indicador": "0.09",
+    "Cinco": 1,
+    "Diez": 1
+},
+{
+    "Indicador": "0.10",
+    "Cinco": 3,
+    "Diez": 2
+},
+{
+    "Indicador": "0.12",
+    "Cinco": 4,
+    "Diez": 2
+},
+{
+    "Indicador": "0.14",
+    "Cinco": 6,
+    "Diez": 3
+},
+{
+    "Indicador": "0.16",
+    "Cinco": 8,
+    "Diez": 4
+},
+{
+    "Indicador": "0.18",
+    "Cinco": 10,
+    "Diez": 6
+},
+{
+    "Indicador": "0.20",
+    "Cinco": 12,
+    "Diez": 7
+},
+{
+    "Indicador": "0.22",
+    "Cinco": 14,
+    "Diez": 8
+},
+{
+    "Indicador": "0.24",
+    "Cinco": 13,
+    "Diez": 10
+},
+{
+    "Indicador": "0.26",
+    "Cinco": 20,
+    "Diez": 11
+},
+{
+    "Indicador": "0.28",
+    "Cinco": 23,
+    "Diez": 13
+},
+{
+    "Indicador": "0.30",
+    "Cinco": 27,
+    "Diez": 15
+},
+{
+    "Indicador": "0.32",
+    "Cinco": 30,
+    "Diez": 17
+},
+{
+    "Indicador": "0.34",
+    "Cinco": 34,
+    "Diez": 20
+},
+{
+    "Indicador": "0.36",
+    "Cinco": 38,
+    "Diez": 22
+},
+{
+    "Indicador": "0.38",
+    "Cinco": 43,
+    "Diez": 24
+},
+{
+    "Indicador": "0.40",
+    "Cinco": 47,
+    "Diez": 27
+},
+{
+    "Indicador": "0.42",
+    "Cinco": 52,
+    "Diez": 30
+},
+{
+    "Indicador": "0.44",
+    "Cinco": 57,
+    "Diez": 33
+},
+{
+    "Indicador": "0.46",
+    "Cinco": 63,
+    "Diez": 36
+},
+{
+    "Indicador": "0.48",
+    "Cinco": 68,
+    "Diez": 39
+},
+{
+    "Indicador": "0.50",
+    "Cinco": 74,
+    "Diez": 42
+},
+{
+    "Indicador": "0.52",
+    "Cinco": 80,
+    "Diez": 46
+},
+{
+    "Indicador": "0.54",
+    "Cinco": 86,
+    "Diez": 49
+},
+{
+    "Indicador": "0.56",
+    "Cinco": 93,
+    "Diez": 53
+},
+{
+    "Indicador": "0.58",
+    "Cinco": 100,
+    "Diez": 57
+},
+{
+    "Indicador": "0.60",
+    "Cinco": 107,
+    "Diez": 61
+},
+{
+    "Indicador": "0.62",
+    "Cinco": 114,
+    "Diez": 65
+},
+{
+    "Indicador": "0.64",
+    "Cinco": 121,
+    "Diez": 69
+},
+{
+    "Indicador": "0.66",
+    "Cinco": 129,
+    "Diez": 74
+},
+{
+    "Indicador": "0.68",
+    "Cinco": 137,
+    "Diez": 78
+},
+{
+    "Indicador": "0.70",
+    "Cinco": 145,
+    "Diez": 83
+},
+{
+    "Indicador": "0.72",
+    "Cinco": 153,
+    "Diez": 88
+},
+{
+    "Indicador": "0.74",
+    "Cinco": 162,
+    "Diez": 93
+},
+{
+    "Indicador": "0.76",
+    "Cinco": 171,
+    "Diez": 98
+},
+{
+    "Indicador": "0.78",
+    "Cinco": 180,
+    "Diez": 103
+},
+{
+    "Indicador": "0.80",
+    "Cinco": 190,
+    "Diez": 108
+},
+{
+    "Indicador": "0.82",
+    "Cinco": 199,
+    "Diez": 113
+},
+{
+    "Indicador": "0.84",
+    "Cinco": 209,
+    "Diez": 119
+},
+{
+    "Indicador": "0.86",
+    "Cinco": 218,
+    "Diez": 126
+},
+{
+    "Indicador": "0.88",
+    "Cinco": 229,
+    "Diez": 131
+},
+{
+    "Indicador": "0.90",
+    "Cinco": 239,
+    "Diez": 138
+},
+{
+    "Indicador": "0.92",
+    "Cinco": 250,
+    "Diez": 143
+},
+{
+    "Indicador": "0.94",
+    "Cinco": 261,
+    "Diez": 149
+},
+{
+    "Indicador": "0.96",
+    "Cinco": 273,
+    "Diez": 156
+},
+{
+    "Indicador": "0.98",
+    "Cinco": 284,
+    "Diez": 162
+},
+{
+    "Indicador": "1.00",
+    "Cinco": 296,
+    "Diez": 169
+},
+{
+    "Indicador": "1.02",
+    "Cinco": 303,
+    "Diez": 173
+},
+{
+    "Indicador": "1.04",
+    "Cinco": 313,
+    "Diez": 179
+}
+]

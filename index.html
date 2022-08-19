@@ -104,16 +104,7 @@
                 >3.Calcular el Cociente del radio y el promedio (Indicador)
             </button>
             <p id="indicatorText"></p><br>
-            <div style="display:none" id="float-section">
-                <p>Ahora deberás buscar en la siguiente tabla el cociente de tus datos en la primera
-                    o cuarta columna 
-                    y cruzarlo con el número de lecturas que hayas tenido (5 o 10) en la segunda o tercera
-                    columna, el dato resultante de este cruce será el número de lecturas de tiempos que debes 
-                    tomar para tener un 95% de confianza y un más o menos 5% de nivel de presición en tu promedio 
-                    de tiempo de producción.
-                </p>
-                <div  class="table-img"></div>
-            </div>
+            <p id="tamMuestraText"></p>
     </section>
     <section>
         <hr>
@@ -127,10 +118,6 @@
             </button>
             <div id="referenceSeccion" style="display:none">
                 <p>Por favor ingrese los siguientes datos</p>
-                <div>
-                    <span>Tamaño de muestra requerido según la tabla</span>
-                        <input id="tamMuestra" style="width : 50px"/>
-                </div>
                 <div>
                     <span>Nombre del operario de referencia</span>
                         <input type="text" id="nombreOpRef" style="width : 80px"/>
@@ -291,10 +278,12 @@
             </button><br><br>-->
     </section>
 </main> 
+<script src="./tabla.js" ></script>
 <script src="./objetos.js" ></script>
 <script src="./app.js" ></script>
 <script src="./eventos.js" ></script>
 <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/luxon-business-days/dist/index.js"></script>
 </body>
 </html>

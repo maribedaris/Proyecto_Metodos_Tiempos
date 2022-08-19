@@ -10,8 +10,6 @@ document.querySelector("#envioInfRef").addEventListener("click",leerInfRef);
 calcTimePromRef.addEventListener("click", () => calcTimeProm(times));
 calcTimeEstandRef.addEventListener("click", () => agregarTolBasic(promTimeRef));
 calcTimeEstandRefFinal.addEventListener("click", () => agregarTolVar(promTimeRef,estandarTimeRef));
-document.querySelector("#tamMuestra").addEventListener("input",capturaTamMuestral);
-document.getElementById('tamMuestra').addEventListener('keypress', e =>capturaTamMuestral(e) );
 document.querySelector("#radioPost1").addEventListener("click",describirHolguras);
 document.querySelector("#radioPost2").addEventListener("click",describirHolguras);
 document.querySelector("#radioPost3").addEventListener("click",describirHolguras);
