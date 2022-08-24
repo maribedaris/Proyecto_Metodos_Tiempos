@@ -1,0 +1,99 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  margin-left: 2px;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: "DM Sans", sans-serif;
+}
+
+body p {
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin: 5px;
+}
+body span {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+header {
+  background: linear-gradient(to bottom, #98AFC7, white);
+  height: 8vh;
+}
+header h1 {
+  font-size: 3.2rem;
+  text-align: center;
+  color: #008080;
+  margin: auto auto;
+  text-shadow: 0 0 10px gray;
+  font-weight: bold;
+}
+
+main section {
+  border-top: #008080 1px solid;
+  margin-top: 2px;
+  margin-bottom: 5px;
+}
+main h2 {
+  background: linear-gradient(to bottom, #98AFC7, white);
+  color: #008080;
+  text-align: center;
+  padding: 3px;
+  font-size: 2rem;
+}
+main h3 {
+  padding: 2px;
+  font-size: 1.8rem;
+  color: #008080;
+  text-align: center;
+}
+main h4 {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #008080;
+}
+main input {
+  background-color: #98AFC7;
+  color: #008080;
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin: 5px;
+}
+main input:focus {
+  background-color: #008080;
+  color: white;
+  font-weight: bold;
+}
+main button {
+  background: linear-gradient(45deg, white, #98AFC7);
+  color: #008080;
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin: 5px;
+}
+main button:hover {
+  font-weight: bold;
+  color: black;
+}
+main .mod1 select {
+  background: linear-gradient(45deg, white, #98AFC7);
+  color: #008080;
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin: 5px;
+}
+main .mod1 select:focus {
+  background-color: #98AFC7;
+  color: #008080;
+  font-weight: bold;
+}
+
+footer {
+  background: linear-gradient(to bottom, #98AFC7, white);
+  height: 6vh;
+  border-top: #008080 1px solid;
+}/*# sourceMappingURL=origen.css.map */
