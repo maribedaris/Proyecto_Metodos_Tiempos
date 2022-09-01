@@ -20,13 +20,33 @@ document.querySelector("#radioLuz4").addEventListener("click",describirHolguras)
 document.querySelector("#radiofino1").addEventListener("click",describirHolguras);
 document.querySelector("#radiofino2").addEventListener("click",describirHolguras);
 document.querySelector("#radiofino3").addEventListener("click",describirHolguras);
-//Módulo 3
-document.querySelector("#CalcTimeFree").addEventListener("click",converMin);
-document.querySelector("#entreFechas").addEventListener("click",tareasEntreFechas);
-//Modulo 4
+document.querySelector("#inputMuestra").addEventListener("click",mostrarInputMuestra);
+document.querySelector("#tamMuestra").addEventListener("input",capturaTamMuestral);
+document.getElementById('tamMuestra').addEventListener('keypress', e =>capturaTamMuestral(e) );
+document.querySelector("#holgVarMas").addEventListener("click",mostrarHolguraPol);
+//Modulo 3
 document.querySelector("#numOperarios").addEventListener("input",capturanumOperarios);
 document.getElementById('numOperarios').addEventListener('keypress', e =>capturanumOperarios(e) );
 document.querySelector("#InfMult").addEventListener("click",leerInfOperarios);
 document.querySelector("#promMult").addEventListener("click",calcularPromMult);
 document.querySelector("#estMult").addEventListener("click",calcularEstMult);
+document.querySelector("#varMult").addEventListener("click",selecHolgVarMult);
+document.querySelector("#varMult2").addEventListener("click",selecHolgVarMult);
+document.querySelector("#radio2Post1").addEventListener("click",describirHolgurasMult);
+document.querySelector("#radio2Post2").addEventListener("click",describirHolgurasMult);
+document.querySelector("#radio2Post3").addEventListener("click",describirHolgurasMult);
+document.querySelector("#radio2Luz1").addEventListener("click",describirHolgurasMult);
+document.querySelector("#radio2Luz2").addEventListener("click",describirHolgurasMult);
+document.querySelector("#radio2Luz3").addEventListener("click",describirHolgurasMult);
+document.querySelector("#radio2Luz4").addEventListener("click",describirHolgurasMult);
+document.querySelector("#radio2fino1").addEventListener("click",describirHolgurasMult);
+document.querySelector("#radio2fino2").addEventListener("click",describirHolgurasMult);
+document.querySelector("#radio2fino3").addEventListener("click",describirHolgurasMult);
+document.querySelector("#holgVarMas2").addEventListener("click",mostrarHolguraPol2);
+document.querySelector("#containerOperarios").addEventListener("click",limpiarHolguras);
+calcTimeEstandRefFinal2.addEventListener("click", () => agregarTolVarMult());
+selectOper.addEventListener("click", () => generarListaDesp("desplebleList"));
 
+//Módulo 4
+document.querySelector("#CalcTimeFree").addEventListener("click",converMin);
+document.querySelector("#entreFechas").addEventListener("click",tareasEntreFechas);

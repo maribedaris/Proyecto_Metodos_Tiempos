@@ -30,6 +30,9 @@ let holgurasVarTot;
 let cont=0;
 let tareasDia;
 let indicador;
+let muestralDif=0;
+let detonante=0;
+let contOper=0;
 const holguraNeds=0.05;//Holgura para tomar agua, ir al baño, lavarse las manos
 const holguraFatiga=0.04;//Considera la energia que se consume para realizar un trabajo y aliviar la monotonía
 
@@ -42,7 +45,10 @@ y mejor disponibilidad para la medición de tiempos de la misma*/
 function selectFunction(){
     let timesInit= document.getElementById('times');
     let selected = timesInit.options[timesInit.selectedIndex].text;
-    alert("Usted ha seleccionado la opción "+ selected + " veces");
+    Toastify({
+        text: "Usted ha seleccionado la opción "+ selected + " veces",
+        duration: 3000,
+    }).showToast();
     // El usuario Selecciona el número de valores a ingresar pueden ser 10 o 5 dependiendo del tiempo de ciclo
     if (selected=="Diez"){
         div = document.getElementById('ocult6');
@@ -176,27 +182,22 @@ function buscarTamanio(){
             document.getElementById("tamMuestraText").innerHTML=`Tiene uno o más datos atipicos (demasiado alejado de los demás datos), por favor vuelva a realizar la toma del tiempo y reemplace este dato para poder darle un tamaño de muestra`
         }else{
         document.getElementById("tamMuestraText").innerHTML=`El tamaño de muestra o número de mediciones que deben realizarse para obtener el tiempo promedio con un 95% de confianza es de: ${sampleSize}`
+        capturaTamMuestral();
     }
     })
 }
 
-//-------------------------------------------------------------------------------------------------------------
-/*Módulo 2:Ahora deberás seleccionar al operario más calificado para realizar la tarea
-y tomar sus tiempos de acuerdo al tamaño de muestra indicada en el módulo anterior, es necesario
-que sea un operario con experiencia que trabaje a un ritmo estándar de desempeño, sin esfuerzo adicional ya que
-que este será nuestro tiempo promedio de referencia*/
-
-
-
-//El usuario debe ingresar la información de su operario más capaz en la tarea y se muestra esta información
-function ingresarInfRef(){
-    div = document.getElementById('referenceSeccion');
+function mostrarInputMuestra(){
+    div = document.getElementById('muestraDif');
     div.style.display = '';
-    capturaTamMuestral();
+    muestralDif=1;
 }
 
-function capturaTamMuestral(){
+function capturaTamMuestral(e){
     document.getElementById('tiemposReferencia').innerHTML = '';
+    if (muestralDif==1){
+        sampleSize=parseInt((document.getElementById("tamMuestra")).value);
+    }
     localStorage.setItem("tamMuestra",JSON.stringify(sampleSize));
         for (let j=0;j<=(sampleSize-1);j++){
             //creamos un nodo <input></input> y agregamos la información
@@ -210,9 +211,40 @@ function capturaTamMuestral(){
             let br=document.createElement("br");
             tiemposReferencia.appendChild(br);
         }
+        div = document.getElementById('tiemposReferencia');
+        div.style.display = "none";
 } 
 
+//-------------------------------------------------------------------------------------------------------------
+/*Módulo 2:Ahora deberás seleccionar al operario más calificado para realizar la tarea
+y tomar sus tiempos de acuerdo al tamaño de muestra indicada en el módulo anterior, es necesario
+que sea un operario con experiencia que trabaje a un ritmo estándar de desempeño, sin esfuerzo adicional ya que
+que este será nuestro tiempo promedio de referencia*/
+
+
+
+//El usuario debe ingresar la información de su operario más capaz en la tarea y se muestra esta información
+function ingresarInfRef(){
+    console.log(sampleSize);
+    if (sampleSize!=0){
+    div = document.getElementById('referenceSeccion');
+    div.style.display = '';
+    div = document.getElementById('tiemposReferencia');
+    div.style.display = '';
+    }else{
+        Toastify({
+            text: "No ha seleccionado un tamaño de muestra, por favor vaya al módulo 1 para ingresar el tamaño de muestra",
+            duration: 3800,
+        }).showToast();
+    }
+}
+
+
 function leerInfRef(){
+    Toastify({
+        text: "El envío de la información fue exitoso",
+        duration: 3000,
+    }).showToast();
     nameOperRef=(document.getElementById("nombreOpRef")).value;
     experienceOperRef=parseInt((document.getElementById("yearsExp")).value);
     for (let j=0;j<=(sampleSize-1);j++){
@@ -303,7 +335,13 @@ function agregarTolVar(tiempoPromedio,tiempoEstandar){
             break;
         }
     }
-    holgurasVarTot=holguraPostVal+holguraEsfuerzoVal+holguraLuzVal;
+    let holguraPol=document.getElementById("inputHolguraPol").value;
+    if (holguraPol!=""){
+        holguraPol=parseFloat(holguraPol);
+    }else{
+        holguraPol=0;
+    }
+    holgurasVarTot=holguraPostVal+holguraEsfuerzoVal+holguraLuzVal+holguraPol;
     estandarTimeRefFinal=tiempoEstandar+tiempoPromedio*(holgurasVarTot);
     document.getElementById("estandTimeRefFinal").innerHTML=`tiempo estandar final
     (sumando las holguras básicas y variables): ${estandarTimeRefFinal} minutos`
@@ -365,6 +403,15 @@ function describirHolguras(){
     ${holguraLuzText}<br>
     ${holguraEsfuerzoText}`
     document.getElementById("holgurasSelec").innerHTML=textoFinal;
+    Toastify({
+        text: "Se han agregado las holguras variables, puede ver las seleccionadas en el texto inferior",
+        duration: 3000,
+    }).showToast();
+}
+
+function mostrarHolguraPol(){
+    div = document.getElementById('sectionHolguraPol');
+    div.style.display = '';
 }
 
 /*Llenado del objeto y guardar en el local Storage*/
@@ -379,53 +426,8 @@ function obtenerObjLS(){
         return operariodest1;
     } 
 }
-
 //--------------------------------------------------------------------------------------------------------------
-/*Módulo 3:Cálculos con el operario destacado. En este módulo se incluyeron algunos cálculos como la cantidad de veces al día que el operario repite la tarea, el tiempo trabajado durante el día y el tiempo libre, además se cálcula el número de veces que se realizará la tarea entre un intervalo de fechas considerando solo días hábiles*/
-function converMin(){
-    let jornada=document.getElementById("jornada").value;
-    let jornadaMin=jornada*60;
-    operariodest1=operariodest1 || obtenerObjLS(); 
-    let {nombreRef,tiempoEstRef}=operariodest1; 
-    let minProduct=jornadaMin/(1+holguraNeds+holguraFatiga+holgurasVarTot)
-    let horasProduc=(minProduct/60);
-    let horasLib=jornada-horasProduc;
-    tareasDia=Math.floor(jornadaMin/(tiempoEstRef));
-    document.getElementById("indOperDest").innerHTML=`El operario ${nombreRef} tiene una jornada de ${horasProduc} 
-    horas productivas y de ${horasLib} horas libres de acuerdo a las holguras implementadas durante el día; y realiza 
-    la tarea estudiada un total de ${tareasDia} veces al día`;
-}
-
-function tareasEntreFechas(){
-let date1=(document.getElementById("dateInit").value);
-let año1=parseInt(date1.substring(0, 4));
-let mes1=parseInt(date1.substring(5, 7));
-let dia1=parseInt(date1.substring(8,10));
-let dateInit = DateTime.local(año1,mes1,dia1);
-let date2=(document.getElementById("dateFin").value);
-let año2=parseInt(date2.substring(0, 4));
-let mes2=parseInt(date2.substring(5, 7));
-let dia2=parseInt(date2.substring(8,10));
-let dateFin = DateTime.local(año2,mes2,dia2);
-const interval=luxon.Interval;
-const int=interval.fromDateTimes(dateInit,dateFin);
-let diasDif=(int.length('days'));
-let weekendCont=0;
-let dt=dateInit.minus({days:1});
-for (let i=0;i<=diasDif;i++){
-    dt=dt.plus({days:1});
-    if ((dt.weekday==6)||(dt.weekday==7)){
-        weekendCont=weekendCont+1
-    }
-}
-let diasLab=diasDif-weekendCont;
-tareasTot=diasLab*tareasDia;
-document.getElementById("IndDates").innerHTML=`El operario destacado entre el día ${date1} y el día ${date2} puede realizar la tarea un total de ${tareasTot} veces, considerando que de los ${diasDif} días entre las 
-dos fechas solo ${diasLab} días son laborales (lunes-Viernes) sin considerar días festivos`
-}
-
-//--------------------------------------------------------------------------------------------------------------
-/*Módulo 4:Comparación de tiempos.
+/*Módulo 3:Comparación de tiempos.
 Carga de información  de los tiempos de diferentes operarios, de acuerdo al número de muestra arrojado en el paso anterior (acá creo que 
 esto se podría lograr a travez de un JSON, pero es algo que aún no vemos,por ahora solicitaré al usuario la
 información a traves de un promp) con esta información se calcula el tiempo promedio, Valoración de tiempos de
@@ -442,7 +444,10 @@ let idExp;
 let id;
 let br;
 let div = document.getElementById('infOperarios');
-typeof(sampleSize)==="undefined" && (sampleSize=localStorage.getItem("tamMuestra")); //Operador lógico AND
+if (sampleSize==0){
+    (sampleSize=localStorage.getItem("tamMuestra"))
+    }
+
 while (div.firstChild) {
     div.removeChild(div.firstChild);
 }
@@ -485,6 +490,10 @@ for (let j=0;j<=(numOperarios-1);j++){
 }
 
 function leerInfOperarios(){
+    Toastify({
+        text: "Se haenviado la información de manera exitosa",
+        duration: 3000,
+    }).showToast();
     for (let i=0;i<=(numOperarios-1);i++){
         nameOper=(document.getElementById(`nombre${i+1}`)).value;
         experienceOper=(document.getElementById(`exp${i+1}`)).value;
@@ -528,6 +537,234 @@ function calcularEstMult(){
         }
 }
 
+function selecHolgVarMult(){
+    if (document.querySelector('input[name="holgurasMult"]:checked')!=null){
+        holgurasMult= document.querySelector('input[name=holgurasMult]:checked').value;
+        switch (holgurasMult) {
+            case "distMult":
+                console.log("holi");
+                mostrarHolgurasVarMult();
+            break;
+            case "distInd":
+                mostrarHolgurasVarInd();
+            break;
+        }
+    }
+}
+
+
+function mostrarHolgurasVarMult(){
+    div = document.getElementById('holgurasVarMult');
+    div.style.display = '';
+}
+
+function mostrarHolgurasVarInd(){
+        generarListaDesp("containerOperarios");
+        mostrarHolgurasVarMult();
+        detonante=1;
+}
+
+function generarListaDesp(id){
+    let select = document.createElement("select");
+    select.name = "operarios";
+    select.id = "operarios"
+    for (i in operario)
+    {
+        let option = document.createElement("option");
+        option.value = operario[i].nombre;
+        let nombre=operario[i].nombre;
+        option.text = nombre.charAt(0).toUpperCase() + nombre.slice(1);
+        select.appendChild(option);
+    }
+    let label = document.createElement("label");
+    label.innerHTML = "Selecciona el operario: "
+    label.htmlFor = "operarios";
+    document.getElementById(id).appendChild(label).appendChild(select);
+}
+
+
+function agregarTolVarMult(){
+        let holguraPostVal=0;
+        let holguraLuzVal=0;
+        let holguraEsfuerzoVal=0;
+        if (document.querySelector('input[name="postura2"]:checked')!=null){
+            holguraPost= document.querySelector('input[name=postura2]:checked').value;
+            switch (holguraPost) {
+                case "parado":
+                    holguraPostVal=0.02;
+                break;
+                case "incomodo":
+                    holguraPostVal=0.1;
+                break;
+                case "ninguna":
+                    holguraPostVal=0;
+                break;
+            }
+        }
+        if (document.querySelector('input[name="luz2"]:checked')!=null){
+            holguraLuz= document.querySelector('input[name=luz2]:checked').value;
+            switch (holguraLuz) {
+                case "luz1":
+                    holguraLuzVal=0.01;
+                break;
+                case "luz2":
+                    holguraLuzVal=0.03;
+                break;
+                case "luz3":
+                    holguraLuzVal=0.05;
+                break;
+                case "ninguna":
+                    holguraLuzVal=0;
+                break;
+            }
+        }
+        if (document.querySelector('input[name="esfuerzo2"]:checked')!=null){
+            holguraEsfuerzo= document.querySelector('input[name=esfuerzo2]:checked').value;
+            switch (holguraEsfuerzo) {
+                case "fino1":
+                    holguraEsfuerzoVal=0.02;
+                break;
+                case "fino2":
+                    holguraEsfuerzoVal=0.05;
+                break;
+                case "ninguna":
+                    holguraEsfuerzoVal=0;
+                break;
+            }
+        }
+        let holguraPol=document.getElementById("inputHolguraPol2").value;
+        if (holguraPol!=""){
+            holguraPol=parseFloat(holguraPol);
+        }else{
+            holguraPol=0;
+        }
+        holgurasVarTot=holguraPostVal+holguraEsfuerzoVal+holguraLuzVal+holguraPol;
+        if (detonante==0){
+            for (i in operario)
+            {
+                estandarTimeRefFinalMult=operario[i].tiempoEstandar+(operario[i].tiempoPromedio*(holgurasVarTot));
+                let p=document.createElement("p");
+                p.setAttribute("id",`estandP${i+1}`);
+                estandTimeRefFinal2.appendChild(p);
+                p.innerHTML=document.getElementById(`estandP${i+1}`).innerHTML=`El tiempo estandar final del operario ${operario[i].nombre} es:${estandarTimeRefFinalMult} minutos`;
+                operario[i].tiempoEstandarFinal=estandarTimeRefFinalMult;
+            }
+        }else{
+            contOper=contOper+1;
+            let index;
+            for (j in operario)
+            {   estandarTimeRefFinalMult=operario[j].tiempoEstandar+(operario[j].tiempoPromedio*        (holgurasVarTot));
+                let nombre=document.getElementById("operarios").value;
+                if (operario[j].nombre==nombre){
+                    index=j;
+                    operario[j].tiempoEstandarFinal=estandarTimeRefFinalMult;
+                    let p=document.createElement("p");
+                    p.setAttribute("id",`estandP${contOper}`);
+                    estandTimeRefFinal2.appendChild(p);
+                    p.innerHTML=document.getElementById(`estandP${contOper}`).innerHTML=`El tiempo estandar final del operario ${operario[j].nombre} es:${estandarTimeRefFinalMult} minutos`;
+                    operario[i].tiempoEstandarFinal=estandarTimeRefFinalMult;
+                }
+            }
+        }
+    console.log(operario);
+    }
+
+function describirHolgurasMult(){
+    let holguraLuzText="";
+    let holguraEsfuerzoText="";
+    let holguraPostText="";
+    let textoFinal="";
+    if (document.querySelector('input[name="postura2"]:checked')!=null){
+        holguraPost= document.querySelector('input[name=postura2]:checked').value;
+        switch (holguraPost) {
+            case "parado":
+                holguraPostText="Parado";
+            break;
+            case "incomodo":
+                holguraPostText="Incomodo";
+            break;
+            case "ninguna":
+                holguraPostText="Ninguna holgura por postura";
+            break;
+        }
+    }
+    if (document.querySelector('input[name="luz2"]:checked')!=null){
+        holguraLuz= document.querySelector('input[name=luz2]:checked').value;
+        switch (holguraLuz) {
+            case "luz1":
+                holguraLuzText="Un nivel (una subcategoría de IES) abajo de lo recomendado";
+            break;
+            case "luz2":
+                holguraLuzText="Dos niveles abajo de lo recomendado";
+            break;
+            case "luz3":
+                holguraLuzText="Tres niveles (categoría IES completa) abajo de lo recomendado";
+            break;
+            case "ninguna":
+                holguraLuzText="Ninguna holgura por la iluminación";
+            break;
+        }
+    }
+    if (document.querySelector('input[name="esfuerzo2"]:checked')!=null){
+        holguraEsfuerzo= document.querySelector('input[name=esfuerzo2]:checked').value;
+        switch (holguraEsfuerzo) {
+            case "fino1":
+                holguraEsfuerzoText="Trabajo fino";
+            break;
+            case "fino2":
+                holguraEsfuerzoText="Trabajo muy fino";
+            break;
+            case "ninguna":
+                holguraEsfuerzoText="Ninguna holgura por esfuerzo";
+            break;
+        }
+    }
+    textoFinal=`Las holguras variables que ha seleccionado son: <br>
+    ${holguraPostText}<br>
+    ${holguraLuzText}<br>
+    ${holguraEsfuerzoText}`
+    document.getElementById("holgurasSelec2").innerHTML=textoFinal;
+    Toastify({
+        text: "Se han agregado las holguras variables, puede ver las seleccionadas en el texto inferior",
+        duration: 3000,
+    }).showToast();
+}
+
+function limpiarHolguras(){
+    let radio;
+    radio = document.getElementById("radio2Post1");
+    radio.checked = false;
+    radio = document.getElementById("radio2Post2");
+    radio.checked = false;
+    radio = document.getElementById("radio2Post3");
+    radio.checked = false;
+    radio = document.getElementById("radio2Luz1");
+    radio.checked = false;
+    radio = document.getElementById("radio2Luz2");
+    radio.checked = false;
+    radio = document.getElementById("radio2Luz3");
+    radio.checked = false;
+    radio = document.getElementById("radio2Luz4");
+    radio.checked = false;
+    radio = document.getElementById("radio2fino1");
+    radio.checked = false;
+    radio = document.getElementById("radio2fino2");
+    radio.checked = false;
+    radio = document.getElementById("radio2fino3");
+    radio.checked = false;
+    document.getElementById("holgurasSelec2").innerHTML="";
+}
+
+function mostrarHolguraPol2(){
+    div = document.getElementById('sectionHolguraPol2');
+    div.style.display = '';
+}
+
+
+
+
+//--------------------------------------------------------------------------------------------------------------
+/*Módulo 4:Cálculos entre operarios*/
 function compararProm(){
     operariodest1=operariodest1 || obtenerObjLS(); //Operador lógico OR
     let {nombreRef,experienciaRef,tiempoPromRef}=operariodest1; //Desestructuración;
@@ -543,3 +780,46 @@ function compararProm(){
     p.setAttribute("id",`p${i}`);
     timeMult.appendChild(p);
     p.innerHTML=document.getElementById(`p${i}`).innerHTML=`La información del operario ${i+1} es: ${JSON.stringify(operario[i])}<br>`;*/
+//--------------------------------------------------------------------------------------------------------------
+/*Módulo 5:Cálculos con el operario destacado. En este módulo se incluyeron algunos cálculos como la cantidad de veces al día que el operario repite la tarea, el tiempo trabajado durante el día y el tiempo libre, además se cálcula el número de veces que se realizará la tarea entre un intervalo de fechas considerando solo días hábiles*/
+function converMin(){
+    let jornada=document.getElementById("jornada").value;
+    let jornadaMin=jornada*60;
+    operariodest1=operariodest1 || obtenerObjLS(); 
+    let {nombreRef,tiempoEstRef}=operariodest1; 
+    let minProduct=jornadaMin/(1+holguraNeds+holguraFatiga+holgurasVarTot)
+    let horasProduc=(minProduct/60);
+    let horasLib=jornada-horasProduc;
+    tareasDia=Math.floor(jornadaMin/(tiempoEstRef));
+    document.getElementById("indOperDest").innerHTML=`El operario ${nombreRef} tiene una jornada de ${horasProduc} 
+    horas productivas y de ${horasLib} horas libres de acuerdo a las holguras implementadas durante el día; y realiza 
+    la tarea estudiada un total de ${tareasDia} veces al día`;
+}
+
+function tareasEntreFechas(){
+let date1=(document.getElementById("dateInit").value);
+let año1=parseInt(date1.substring(0, 4));
+let mes1=parseInt(date1.substring(5, 7));
+let dia1=parseInt(date1.substring(8,10));
+let dateInit = DateTime.local(año1,mes1,dia1);
+let date2=(document.getElementById("dateFin").value);
+let año2=parseInt(date2.substring(0, 4));
+let mes2=parseInt(date2.substring(5, 7));
+let dia2=parseInt(date2.substring(8,10));
+let dateFin = DateTime.local(año2,mes2,dia2);
+const interval=luxon.Interval;
+const int=interval.fromDateTimes(dateInit,dateFin);
+let diasDif=(int.length('days'));
+let weekendCont=0;
+let dt=dateInit.minus({days:1});
+for (let i=0;i<=diasDif;i++){
+    dt=dt.plus({days:1});
+    if ((dt.weekday==6)||(dt.weekday==7)){
+        weekendCont=weekendCont+1
+    }
+}
+let diasLab=diasDif-weekendCont;
+tareasTot=diasLab*tareasDia;
+document.getElementById("IndDates").innerHTML=`El operario destacado entre el día ${date1} y el día ${date2} puede realizar la tarea un total de ${tareasTot} veces, considerando que de los ${diasDif} días entre las 
+dos fechas solo ${diasLab} días son laborales (lunes-Viernes) sin considerar días festivos`
+}

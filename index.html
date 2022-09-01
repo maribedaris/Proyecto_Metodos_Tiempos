@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulador Calculadora de tiempos de producción</title>
     <link rel="stylesheet" href="./estilos/destino.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
 </head>
 <body>
     <header>
@@ -104,7 +106,16 @@
             </button>
             <p id="indicatorText"></p>
             <p id="tamMuestraText"></p>
-        </div>
+            <p>Si desea ingresar un tamaño de muestra diferente al sugerido puede hacerlo, pero tenga en cuenta
+                que el nivel de confianza no será del 95% que es el recomendado para este tipo de estudios.
+            </p>
+            <button id="inputMuestra" href="#" style="width : 180px" 
+                >Ingresar un tamaño de muestra diferente
+            </button>
+            <div id="muestraDif" style="display:none">
+                <span>Tamaño de muestra sugerido por el usuario</span>
+                <input id="tamMuestra" style="width : 50px"/>
+            </div>
     </section>
     <section class="mod2">
         <h2>Módulo 2: Toma de tiempos de referencia y cálculo de tiempo Estandar</h2>
@@ -149,8 +160,7 @@
         <p id="estandTimeRef"></p>
         <div>
                 <p>Ahora podrás agregar holguras de descanso variables si lo deseas
-                    considerando las condiciones de trabajo, por favor seleccione las holguras que desee agregar,
-                    si no desea agregar ninguna adicional por favor no seleccione ninguna.
+                    considerando las condiciones de trabajo, por favor seleccione las holguras que desee agregar.
                 </p>
                 <h3>Holguras de descanso variables:</h3>
                 <div>
@@ -184,36 +194,22 @@
                 </div>
                 <div>
                     <p id="holgurasSelec"></p>
-                    <button  href="#" style="width : 180px" id="calcTimeEstandRefFinal"
-                        >4.Verificar holguras
-                    </button>
-                    <p id="estandTimeRefFinal"></p>
                 </div>
+                <button id="holgVarMas" href="#" style="width : 180px" 
+                >Agregar una holgura variable por politica</button>
+                <div id="sectionHolguraPol" style="display:none">
+                <p>Por favor ingrese el valor sin %, si desea indicar un 2% ingrese 0.02</p>
+                <span>Holgura adicional por pilitica de la compañía</span>
+                    <input type="text" id="inputHolguraPol" style="width : 80px"/>
+                </div><br>
+                <button  href="#" style="width : 180px" id="calcTimeEstandRefFinal"
+                >4.Verificar holguras
+                </button>
+                <p id="estandTimeRefFinal"></p>
         </div>
     </section>
     <section class="mod3">
-        <h2>Módulo 3: Cálculos de tiempo laboral entre fechas</h2>
-        <p>Calcular cantidad de trabajos promedio entre fechas</p>
-        <p>Primero calcularemos el tiempo que el operario destacado trabaja durante la jornada laboral, el tiempo determinado en las holguras y la cantidad de veces que repite la tarea</p>
-        <span>Jornada laboral de un día</span>
-        <input type="number"id="jornada"/>
-        <span>horas</span><br>
-        <button  href="#" style="width : 180px" id="CalcTimeFree"
-        >Calcular tiempo operativo y tiempo libre al día
-        </button>
-        <p id="indOperDest"></p>
-        <p>Calcule cuantas veces el operario destacado podrá realizar la tarea entre dos fechas específicas</p>
-        <span>fecha de inicio</span>
-        <input type="date"id="dateInit"/>
-        <span>fecha fin</span>
-        <input type="date"id="dateFin"/><br>
-        <button  href="#" style="width : 180px" id="entreFechas"
-                >Calcular
-            </button>
-        <p id="IndDates"></p>
-    </section>
-    <section class="mod4">
-            <h2>Módulo 4: Evaluación de tiempos de varios operarios</h2>
+            <h2>Módulo 3: Evaluación de tiempos de varios operarios</h2>
             <p>Para realizar comparaciones entre los diferentes operarios que realizan el 
                 trabajo por favor ingrese los siguientes datos:
             </p>
@@ -235,51 +231,105 @@
             >Agregar tolerancias básicas al tiempo de referencia
             </button>
             <div id="timeEstSectionP"></div>
-            <!--<p>Para las holguras de descanso variables por favor seleccione la opción a usar:</p>
+            <p>Seleccione una de las siguientes opciones para las holguras variables de los operarios</p>
             <div>
-                <span>Seleccionar las mismas holguras del operario de referencia</span>
-                <input type="radio" id="" name="holgurasMult" value="parado" class="holguraVar"/>
-                <span>Seleccionar holguras diferentes a las del operario de referencia para todos los empleados</span>
-                <input type="radio"  id="" name="holgurasMult" value="incomodo" class="holguraVar"/>
-                <span>Seleccionar holguras diferentes para cada empleado</span>
-                <input type="radio"  id="" name="holgurasMult" value="incomodo" class="holguraVar"/>
+                <span>Seleccionar holguras para todos los empleados</span>
+                <input type="radio"  id="varMult" name="holgurasMult" value="distMult" class="holguraVar"/>
+                <span>Seleccionar holguras para cada empleado</span>
+                <input type="radio"  id="varMult2" name="holgurasMult" value="distInd" class="holguraVar"/>
             </div>
-            <div>
-                <h2>Holguras de descanso variables:</h2>
+            <div id="containerOperarios"></div>
+            <div id="holgurasVarMult" style="display:none">
+                <p>Ahora podrás agregar holguras de descanso variables si lo deseas
+                    considerando las condiciones de trabajo, por favor seleccione las holguras que desee agregar.
+                </p>
+                <h3>Holguras de descanso variables:</h3>
                 <div>
-                    <p>holguras por postura</p>
+                    <h4>holguras por postura</h4>
                     <span>parado</span>
-                    <input type="radio" id="radio2Post1" name="postura" value="parado" class="holguraVar"/>
+                    <input type="radio" id="radio2Post1" name="postura2" value="parado" class="holguraVar"/>
                     <span>Incómodo (fexionado, acostado, en cuclillas)</span>
-                    <input type="radio"  id="radio2Post2" name="postura" value="incomodo" class="holguraVar"/>
+                    <input type="radio"  id="radio2Post2" name="postura2" value="incomodo" class="holguraVar"/>
+                    <span>Ninguna holgura por postura</span>
+                    <input type="radio"  id="radio2Post3" name="postura2" value="ninguna" class="holguraVar"/>
                 </div>
                 <div>
-                    <p>Niveles de iluminación</p>
+                    <h4>Niveles de iluminación</h4>
                     <span>Un nivel (una subcategoría de IES) abajo de lo recomendado</span>
-                    <input type="radio" id="radio2Luz1" name="luz" value="luz1" class="holguraVar"/>
+                    <input type="radio" id="radio2Luz1" name="luz2" value="luz1" class="holguraVar"/>
                     <span>Dos niveles abajo de lo recomendado</span>
-                    <input type="radio" id="radio2Luz2" name="luz" value="luz2" class="holguraVar"/>
+                    <input type="radio" id="radio2Luz2" name="luz2" value="luz2" class="holguraVar"/>
                     <span>Tres niveles (categoría IES completa) abajo de lo recomendado</span>
-                    <input type="radio" id="radio2Luz3" name="luz" value="luz3" class="holguraVar"/>
+                    <input type="radio" id="radio2Luz3" name="luz2" value="luz3" class="holguraVar"/>
+                    <span>Ninguna holgura por iluminación</span>
+                    <input type="radio"  id="radio2Luz4" name="luz2" value="ninguna" class="holguraVar"/>
                 </div>
                 <div>
-                    <p>Esfuerzo visual (atención estrecha)</p>
+                    <h4>Esfuerzo visual (atención estrecha)</h4>
                     <span>Trabajo fino</span>
-                    <input type="radio" id="radio2fino1" name="esfuerzo" value="fino1" class="holguraVar"/>
+                    <input type="radio" id="radio2fino1" name="esfuerzo2" value="fino1" class="holguraVar"/>
                     <span>Trabajo muy fino</span>
-                    <input type="radio"id="radio2fino2" name="esfuerzo" value="fino2" class="holguraVar"/>
+                    <input type="radio"id="radio2fino2" name="esfuerzo2" value="fino2" class="holguraVar"/>
+                    <span>Ninguna holgura por esfuerzo</span>
+                    <input type="radio"  id="radio2fino3" name="esfuerzo2" value="ninguna" class="holguraVar"/>
                 </div>
+                <div>
+                    <p id="holgurasSelec2"></p>
+                </div>
+                <button id="holgVarMas2" href="#" style="width : 180px" 
+                >Agregar una holgura variable por politica</button>
+                <div id="sectionHolguraPol2" style="display:none">
+                <p>Por favor ingrese el valor sin %, si desea indicar un 2% ingrese 0.02</p>
+                <span>Holgura adicional por pilitica de la compañía</span>
+                    <input type="text" id="inputHolguraPol2" style="width : 80px"/>
+                </div><br>
+                <button  href="#" style="width : 180px" id="calcTimeEstandRefFinal2"
+                >4.Verificar holguras
+                </button>
+                <div id="estandTimeRefFinal2"></div>
+        </div>
+    <section>
+        <h2>Módulo 4:Cálculo de las horas trabajadas y del porcentaje de eficiencia de los operarios</h2>
+        <div id="operarioslista"></div>
+        <p>Primero calcularemos el tiempo que el operario destacado trabaja durante la jornada laboral, el tiempo determinado en las holguras y la cantidad de veces que repite la tarea</p>
+        <span>Jornada laboral de un día</span>
+        <input type="number"id="jornada"/>
+        <span>horas</span><br>
+        <button id="selectOper">Seleccionar un operario</button>
+        <div id="desplegableListSeccion">
+            <div id="desplebleList"></div>
+            <p>Ahora calcularemos el porcentaje de eficiencia (He) del operario seleccionado</p>
+            <button>Cálcular He</button>
+            <div style="display:none">
+                <button  href="#" style="width : 180px" id="CalcTimeFree">
+                Calcular tiempo operativo y tiempo libre al día
+                </button>
             </div>
-            <button  href="#" style="width : 180px" id="promComp"
-                >Comparar tiempos promedio sin holguras
-            </button><br><br>-->
+        </div>
+        
+    </section>
+    </section>
+    <section class="mod5">
+        <h2>Módulo 5: Cálculos de tiempo laboral entre fechas</h2>
+        <p>Calcular cantidad de trabajos promedio entre fechas</p>
+        <p id="indOperDest"></p>
+        <p>Calcule cuantas veces el operario destacado podrá realizar la tarea entre dos fechas específicas</p>
+        <span>fecha de inicio</span>
+        <input type="date"id="dateInit"/>
+        <span>fecha fin</span>
+        <input type="date"id="dateFin"/><br>
+        <button  href="#" style="width : 180px" id="entreFechas"
+                >Calcular
+            </button>
+        <p id="IndDates"></p>
     </section>
 </main> 
 <footer></footer>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luxon-business-days/dist/index.js"></script>
 <script src="./objetos.js" ></script>
 <script src="./app.js" ></script>
 <script src="./eventos.js" ></script>
-<script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/luxon-business-days/dist/index.js"></script>
 </body>
 </html>
