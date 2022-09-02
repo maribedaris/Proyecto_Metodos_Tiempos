@@ -91,6 +91,26 @@ main .mod1 select:focus {
   color: #008080;
   font-weight: bold;
 }
+main .parrafoPrincipal {
+  font-size: 1.8rem;
+  border: solid gray 1px;
+  padding: 7px;
+  background: linear-gradient(90deg, white, #98AFC7);
+  font-weight: bold;
+  border-radius: 20px;
+  color: #008080;
+}
+main .respuesta {
+  margin: 5px;
+  color: #3390FF;
+  font-size: 1.7rem;
+  font-weight: bold;
+}
+main .listDespLabel {
+  font-size: 1.7rem;
+  color: #008080;
+  font-weight: bold;
+}
 
 footer {
   background: linear-gradient(to bottom, #98AFC7, white);

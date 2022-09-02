@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulador Calculadora de tiempos de producción</title>
+    <!--Enlaces a la hoja de estilos-->
     <link rel="stylesheet" href="./estilos/destino.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
@@ -14,7 +15,7 @@
             <h1>Indicadores para el estudio de tiempos de producción</h1>
     </header>
     <main>
-        <p>Calcular el tiempo promedio de producción es una tarea de gran importancia para 
+        <p  class="parrafoPrincipal">Calcular el tiempo promedio de producción es una tarea de gran importancia para 
             una industria productiva ya que a partir este indicador se facilita la toma de decisiones, 
             para ello vamos a calcular el tamaño de muestra ideal para identificar el tiempo promedio con un 
             95% de confianza y un más o menos 5% de nivel de precisión.
@@ -96,16 +97,17 @@
             <button id="submitRange" href="#" style="width : 180px"
                 >1.Calcular Rango de los datos ingresados
             </button>
-            <p id="rangeText"></p>
+            <p id="rangeText" class="respuesta"></p>
+            <p>Cálcule el promedio de los datos ingresados</p>
             <button id="submitProm" href="#" style="width : 180px" 
-                >2.Calcular Promedio de los datos ingresados
-            </button>
-            <p id="promText"></p>
+                >2.Calcular Promedio</button>
+            <p id="promText" class="respuesta"></p>
+            <p>Calcular el Cociente del radio y el promedio (Indicador)</p>
             <button id="submitInd" href="#" style="width : 180px" 
-                >3.Calcular el Cociente del radio y el promedio (Indicador)
+                >3.Calcular Indicador
             </button>
-            <p id="indicatorText"></p>
-            <p id="tamMuestraText"></p>
+            <p id="indicatorText" class="respuesta"></p>
+            <p id="tamMuestraText" class="respuesta"></p>
             <p>Si desea ingresar un tamaño de muestra diferente al sugerido puede hacerlo, pero tenga en cuenta
                 que el nivel de confianza no será del 95% que es el recomendado para este tipo de estudios.
             </p>
@@ -138,26 +140,26 @@
                 </div>
             </div>
             <div>
-                <p>Por favor ingrese los tiempos de acuerdo al tamaño de muestra ingresado</p>
+                <p>Por favor ingrese los tiempos de acuerdo al tamaño de muestra ingresado usando "." para los números decimales</p>
                 <div id="tiemposReferencia"></div>
             </div>
             <button  id="envioInfRef" href="#" style="width : 180px" 
                 >Enviar Información
             </button>
         </div>
-        <p id="datosIngresados"></p>
-        <p id="tiemposTexto"></p>
+        <p id="datosIngresados" class="respuesta"></p>
+        <p id="tiemposTexto" class="respuesta"></p>
         <div id="tiemposIngresados"></div>
         <button id="calcTimePromRef" href="#" style="width : 180px" 
             >2.Calcular el tiempo promedio del operario de referencia
         </button>
-        <p id="promTimeRef"></p>
+        <p id="promTimeRef" class="respuesta"></p>
         <p>Es necesario agregar holguras constantes a este tiempo donde se consideran las necesidades básicas
             y la tolerancia por fatiga </p>
         <button id="calcTimeEstandRef" href="#" style="width : 180px" 
             >3.Agregar tolerancias básicas al tiempo de referencia
         </button>
-        <p id="estandTimeRef"></p>
+        <p id="estandTimeRef" class="respuesta"></p>
         <div>
                 <p>Ahora podrás agregar holguras de descanso variables si lo deseas
                     considerando las condiciones de trabajo, por favor seleccione las holguras que desee agregar.
@@ -193,8 +195,9 @@
                     <input type="radio"  id="radiofino3" name="esfuerzo" value="ninguna" class="holguraVar"/>
                 </div>
                 <div>
-                    <p id="holgurasSelec"></p>
+                    <p id="holgurasSelec" class="respuesta"></p>
                 </div>
+                <p>Es posible que la compañía tenga otro tipo de retraso que no fue contemplado en las holguras seleccionadas, si es así por favor agrega esa tolerancia en "Agregar una holgura variable por política"</p>
                 <button id="holgVarMas" href="#" style="width : 180px" 
                 >Agregar una holgura variable por politica</button>
                 <div id="sectionHolguraPol" style="display:none">
@@ -202,10 +205,11 @@
                 <span>Holgura adicional por pilitica de la compañía</span>
                     <input type="text" id="inputHolguraPol" style="width : 80px"/>
                 </div><br>
+                <p>Si ha terminado de ingresar las holguras por favor dé click al botón "Verificar holguras"</p>
                 <button  href="#" style="width : 180px" id="calcTimeEstandRefFinal"
                 >4.Verificar holguras
                 </button>
-                <p id="estandTimeRefFinal"></p>
+                <p id="estandTimeRefFinal" class="respuesta"></p>
         </div>
     </section>
     <section class="mod3">
@@ -222,11 +226,13 @@
                 >Enviar Información
             </button>
             <div id="multP"></div>
+            <p>Cálcule el tiempo promedio de los operarios</p>
             <button  href="#" style="width : 180px" id="promMult"
             >Calcular tiempo promedio de los operarios
             </button>
             <p id="estandTimeRefMult"></p>
             <div id="promMultP"></div>
+            <p>Agregar tolerancias por fátiga y necesidades básicas a los operarios (holguras básicas)</p>
             <button  href="#" style="width : 180px" id="estMult"
             >Agregar tolerancias básicas al tiempo de referencia
             </button>
@@ -238,7 +244,7 @@
                 <span>Seleccionar holguras para cada empleado</span>
                 <input type="radio"  id="varMult2" name="holgurasMult" value="distInd" class="holguraVar"/>
             </div>
-            <div id="containerOperarios"></div>
+            <div id="containerOperarios" clas="respuesta"></div>
             <div id="holgurasVarMult" style="display:none">
                 <p>Ahora podrás agregar holguras de descanso variables si lo deseas
                     considerando las condiciones de trabajo, por favor seleccione las holguras que desee agregar.
@@ -274,7 +280,7 @@
                     <input type="radio"  id="radio2fino3" name="esfuerzo2" value="ninguna" class="holguraVar"/>
                 </div>
                 <div>
-                    <p id="holgurasSelec2"></p>
+                    <p id="holgurasSelec2" class="respuesta"></p>
                 </div>
                 <button id="holgVarMas2" href="#" style="width : 180px" 
                 >Agregar una holgura variable por politica</button>
@@ -308,10 +314,9 @@
                 Calcular tiempo operativo y tiempo libre
                 </button>
             </div>
-            <p id="indOperDest"></p>
+            <p id="indOperDest" class="respuesta"></p>
             <div id="SeccionCompar"></div>
             <h3>Cálculos de tiempo laboral entre fechas</h3>
-            <p>Calcular cantidad de trabajos promedio entre fechas</p>
             <p>Calcule cuantas veces el operario destacado y el operario seleccionado podrán realizar la tarea entre dos fechas específicas</p>
             <span>fecha de inicio</span>
             <input type="date"id="dateInit"/>
@@ -320,7 +325,7 @@
             <button  href="#" style="width : 180px" id="entreFechas"
                     >Calcular
                 </button>
-            <p id="IndDates"></p>
+            <p id="IndDates" class="respuesta"></p>
             <div id="comparFechasSeccion"></div>
             </div>
         
@@ -328,9 +333,13 @@
     </section>
 </main> 
 <footer></footer>
+<!--Librerías-->
+<!--Enlaces a la librería toastify-->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<!--Enlaces a la libería Luxon-->
 <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/luxon-business-days/dist/index.js"></script>
+<!--Enlaces a los demás archivos de javascript-->
 <script src="./objetos.js" ></script>
 <script src="./app.js" ></script>
 <script src="./eventos.js" ></script>

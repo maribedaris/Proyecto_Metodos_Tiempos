@@ -101,6 +101,27 @@ main{
             }
         }
     }
+
+    .parrafoPrincipal{
+        font-size: 1.8rem;
+        border:solid gray 1px;
+        padding: 7px;
+        background:linear-gradient(90deg,$color-blanco,$color-principal);
+        font-weight: bold;
+        border-radius: 20px;
+        color:$color-letra;
+    }
+    .respuesta{
+        margin:5px;
+        color:#3390FF;
+        font-size: 1.7rem;
+        font-weight: bold;
+    }
+    .listDespLabel{
+        font-size: 1.7rem;
+        color: $color-letra;
+        font-weight: bold;
+    }
 }
 
 footer{
