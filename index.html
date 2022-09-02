@@ -88,11 +88,11 @@
             </div>
         </div>
         <div>
-            <h3>Ahora calcularemos el rango o intervalo de los tiempos de ciclo de producción, el 
+            <p>Ahora calcularemos el rango o intervalo de los tiempos de ciclo de producción, el 
                 promedio de los tiempos tomados y el cociente entre el rango y la media que necesitaremos 
                 para determinar el tamaño de muestra adecuado para tener una confianza del 95% 
                 y un más o menos 5% de nivel de precisión.
-            </h3>
+            </p>
             <button id="submitRange" href="#" style="width : 180px"
                 >1.Calcular Rango de los datos ingresados
             </button>
@@ -298,30 +298,33 @@
         <button id="selectOper">Seleccionar un operario</button>
         <div id="desplegableListSeccion">
             <div id="desplebleList"></div>
-            <p>Ahora calcularemos el porcentaje de eficiencia (He) del operario seleccionado</p>
-            <button>Cálcular He</button>
-            <div style="display:none">
+            <p>Comparación del tiempo promedio estándar del operario más calificado vs el tiempo promedio estandar del operario seleccionado</p>
+            <button id="timesCompare" style="width : 180px" >Comparar</button>
+            <div id="comparTiemposSeccion"></div>
+
+            <p>Calcule el tiempo libre y el tiempo operativo del operario seleccionado al día vs los tiempos del operario de referencia</p>
+            <div>
                 <button  href="#" style="width : 180px" id="CalcTimeFree">
-                Calcular tiempo operativo y tiempo libre al día
+                Calcular tiempo operativo y tiempo libre
                 </button>
             </div>
-        </div>
+            <p id="indOperDest"></p>
+            <div id="SeccionCompar"></div>
+            <h3>Cálculos de tiempo laboral entre fechas</h3>
+            <p>Calcular cantidad de trabajos promedio entre fechas</p>
+            <p>Calcule cuantas veces el operario destacado y el operario seleccionado podrán realizar la tarea entre dos fechas específicas</p>
+            <span>fecha de inicio</span>
+            <input type="date"id="dateInit"/>
+            <span>fecha fin</span>
+            <input type="date"id="dateFin"/><br>
+            <button  href="#" style="width : 180px" id="entreFechas"
+                    >Calcular
+                </button>
+            <p id="IndDates"></p>
+            <div id="comparFechasSeccion"></div>
+            </div>
         
     </section>
-    </section>
-    <section class="mod5">
-        <h2>Módulo 5: Cálculos de tiempo laboral entre fechas</h2>
-        <p>Calcular cantidad de trabajos promedio entre fechas</p>
-        <p id="indOperDest"></p>
-        <p>Calcule cuantas veces el operario destacado podrá realizar la tarea entre dos fechas específicas</p>
-        <span>fecha de inicio</span>
-        <input type="date"id="dateInit"/>
-        <span>fecha fin</span>
-        <input type="date"id="dateFin"/><br>
-        <button  href="#" style="width : 180px" id="entreFechas"
-                >Calcular
-            </button>
-        <p id="IndDates"></p>
     </section>
 </main> 
 <footer></footer>

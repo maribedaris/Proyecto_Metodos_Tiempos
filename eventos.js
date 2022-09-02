@@ -46,7 +46,7 @@ document.querySelector("#holgVarMas2").addEventListener("click",mostrarHolguraPo
 document.querySelector("#containerOperarios").addEventListener("click",limpiarHolguras);
 calcTimeEstandRefFinal2.addEventListener("click", () => agregarTolVarMult());
 selectOper.addEventListener("click", () => generarListaDesp("desplebleList"));
-
+document.querySelector("#timesCompare").addEventListener("click",compararTiempos);
 //Módulo 4
 document.querySelector("#CalcTimeFree").addEventListener("click",converMin);
 document.querySelector("#entreFechas").addEventListener("click",tareasEntreFechas);
